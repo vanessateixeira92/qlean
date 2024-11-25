@@ -49,6 +49,7 @@ const Location = () => {
   const [address, setAddress] = useState("");
 
   const apiKey = process.env.REACT_APP_API_KEY;
+  console.log("API Key:", apiKey);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -63,7 +64,9 @@ const Location = () => {
           )}&key=${apiKey}&pretty=1&no_annotations=1`;
 
           try {
+            console.log("Sending request to API with URL:", requestUrl);
             const response = await axios.get(requestUrl);
+            console.log("API response:", response);
             if (response.data.results && response.data.results.length > 0) {
               const components = response.data.results[0].components;
               let city =

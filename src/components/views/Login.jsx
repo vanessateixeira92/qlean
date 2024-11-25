@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../generic/Header";
 import Button from "../generic/Buttons";
 import InputField from "../forms/InputField";
@@ -8,6 +9,7 @@ import Separator from "../generic/Separator";
 import Typography from "../generic/Typography";
 import Colors from "../generic/Colors";
 import styled from "styled-components";
+import axios from "axios";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -102,73 +104,93 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [error, setError] = useState(""); // Para mostrar erros
 
-  const handleLogin = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
     if (!email || !password) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
-    console.log("Login submitted", { email, password });
+
+    try {
+      // Envia a requisição de login para o backend (ajustar o URL conforme API)
+      const response = await axios.post("", {
+        email,
+        password,
+      });
+
+      // Supondo que o backend retorne um token de autenticação
+      if (response.data.token) {
+        // Armazena o token no localStorage ou em algum estado global
+        localStorage.setItem("token", response.data.token);
+
+        // Redireciona o usuário para a página /home
+        navigate("/home");
+      } else {
+        setError("Login falhou. Verifique suas credenciais.");
+      }
+    } catch (err) {
+      console.error("Erro ao fazer login:", err);
+      setError("Erro ao conectar-se ao servidor.");
+    }
   };
 
   const handleGoogleLogin = () => {
     console.log("Login com Google");
+    // Implemente a lógica do login com Google
   };
 
   return (
-    <div>
-      <LoginContainer>
-        <Header />
-        <TitleContainer>
-          <LoginTitle>Login</LoginTitle>
-          <LoginDescription>Login into your account!</LoginDescription>
-        </TitleContainer>
+    <LoginContainer>
+      <Header />
+      <TitleContainer>
+        <LoginTitle>Login</LoginTitle>
+        <LoginDescription>Login into your account!</LoginDescription>
+      </TitleContainer>
 
-        <FieldsContainer>
-          <InputContainer>
-            <InputField
-              type="email"
-              placeholder="Email"
-              icon="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </InputContainer>
-          <InputContainer>
-            <PasswordInput
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Checkbox
-              label="Remember me"
-              checked={acceptTerms}
-              onChange={(e) => setAcceptTerms(e.target.checked)}
-            />
-          </InputContainer>
+      <FieldsContainer>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <InputContainer>
+          <InputField
+            type="email"
+            placeholder="Email"
+            icon="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <PasswordInput
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <Checkbox
+            label="Remember me"
+            checked={acceptTerms}
+            onChange={(e) => setAcceptTerms(e.target.checked)}
+          />
+        </InputContainer>
+        <ButtonContainer>
+          <Button text="Login" variant="login" onClick={handleLogin} />
 
-          <ButtonContainer>
-            <Button text="Login" variant="login" onClick={handleLogin} />
+          <Separator />
 
-            <Separator />
-
-            <Button
-              text="Continue with Google"
-              variant="google"
-              onClick={handleGoogleLogin}
-            />
-          </ButtonContainer>
-
-          <LoginFooter>
-            <p>
-              Don´t have account? <a href="/signup">Sign Up now</a>
-            </p>
-          </LoginFooter>
-        </FieldsContainer>
-      </LoginContainer>
-    </div>
+          <Button
+            text="Continue with Google"
+            variant="google"
+            onClick={handleGoogleLogin}
+          />
+        </ButtonContainer>
+        <LoginFooter>
+          Don’t have an account? <a href="/signup">Sign Up now</a>
+        </LoginFooter>
+      </FieldsContainer>
+    </LoginContainer>
   );
 };
 

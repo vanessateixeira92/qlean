@@ -38,6 +38,7 @@ const AppRouter = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/nearyou" element={<NearYou />} />
       <Route path="/washfold" element={<WashFold />} />
+      <Route path="/login/home" element={<Home />} />
     </Routes>
   );
 };

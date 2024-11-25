@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../generic/Header";
 import Button from "../generic/Buttons";
 import InputField from "../forms/InputField";
@@ -102,12 +103,18 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleSignUp = () => {
     if (!name || !email || !password || !acceptTerms) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
+
     console.log("Sign Up submitted", { name, email, password });
+
+    // Após o registro bem-sucedido, redireciona para a página de login
+    navigate("/login");
   };
 
   const handleGoogleSignUp = () => {
@@ -115,66 +122,62 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <SignUpContainer>
-        <Header />
-        <TitleContainer>
-          <SignUpTitle>Sign Up</SignUpTitle>
-          <SignUpDescription>Create an account on Qlean</SignUpDescription>
-        </TitleContainer>
+    <SignUpContainer>
+      <Header />
+      <TitleContainer>
+        <SignUpTitle>Sign Up</SignUpTitle>
+        <SignUpDescription>Create an account on Qlean</SignUpDescription>
+      </TitleContainer>
 
-        <FieldsContainer>
-          <InputContainer>
-            <InputField
-              type="text"
-              placeholder="Name"
-              icon="user"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </InputContainer>
-          <InputContainer>
-            <InputField
-              type="email"
-              placeholder="Email"
-              icon="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </InputContainer>
-          <InputContainer>
-            <PasswordInput
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Checkbox
-              label="Remember me"
-              checked={acceptTerms}
-              onChange={(e) => setAcceptTerms(e.target.checked)}
-            />
-          </InputContainer>
+      <FieldsContainer>
+        <InputContainer>
+          <InputField
+            type="text"
+            placeholder="Name"
+            icon="user"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <InputField
+            type="email"
+            placeholder="Email"
+            icon="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <PasswordInput
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </InputContainer>
+        <InputContainer>
+          <Checkbox
+            label="Remember me"
+            checked={acceptTerms}
+            onChange={(e) => setAcceptTerms(e.target.checked)}
+          />
+        </InputContainer>
 
-          <ButtonContainer>
-            <Button text="Sign Up" variant="signUp" onClick={handleSignUp} />
-            <Separator />
-            <Button
-              text="Continue with Google"
-              variant="google"
-              onClick={handleGoogleSignUp}
-            />
-          </ButtonContainer>
+        <ButtonContainer>
+          <Button text="Sign Up" variant="signUp" onClick={handleSignUp} />
+          <Separator />
+          <Button
+            text="Continue with Google"
+            variant="google"
+            onClick={handleGoogleSignUp}
+          />
+        </ButtonContainer>
 
-          <SignUpFooter>
-            <p>
-              Already have an account? <a href="/login">Login now</a>
-            </p>
-          </SignUpFooter>
-        </FieldsContainer>
-      </SignUpContainer>
-    </div>
+        <SignUpFooter>
+          Already have an account? <a href="/login">Login now</a>
+        </SignUpFooter>
+      </FieldsContainer>
+    </SignUpContainer>
   );
 };
 

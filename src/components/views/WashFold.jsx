@@ -135,7 +135,7 @@ const WasherContent = styled.h1`
   justify-content: center;
 `;
 
-const Weight = styled.h3`
+const Weight = styled.p`
   font-size: ${Typography.p.xlarge.fontSize};
   margin-bottom: 0;
 `;
