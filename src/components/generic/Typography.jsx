@@ -38,7 +38,7 @@ const Typography = {
     // about wash & fold title, washer, price
     large: {
       fontSize: "20px",
-      fontWeight: "500",
+      fontWeight: "600",
       lineHeight: "25.2px",
     },
     // near you, recently used title
