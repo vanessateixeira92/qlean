@@ -49,7 +49,8 @@ const Location = () => {
   const [error, setError] = useState(null);
   const [address, setAddress] = useState("");
 
-  const apiKey = "b60de5b899034ae1971e9536c77af832";
+  // Substitua a chave da API pela variável de ambiente
+  const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -99,7 +100,7 @@ const Location = () => {
     } else {
       setError("Geolocation is not supported by your browser.");
     }
-  }, []);
+  }, [apiKey]); // Re-executa o efeito sempre que a chave API muda
 
   return (
     <LocationWrapper>

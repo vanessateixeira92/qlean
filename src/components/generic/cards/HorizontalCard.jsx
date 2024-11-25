@@ -13,6 +13,7 @@ const FlexContainer = styled.div`
   width: 100%;
   margin: 10px 0;
   position: relative;
+  cursor: pointer;
 `;
 
 const HorizontalCardImage = styled.img`
