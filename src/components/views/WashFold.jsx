@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Location from "../generic/Location";
 import Typography from "../generic/Typography";
@@ -190,8 +189,6 @@ const AboutLink = styled.a`
 `;
 
 const WashFold = () => {
-  const navigate = useNavigate();
-
   return (
     <WashFoldContainer>
       <WashFoldContent>

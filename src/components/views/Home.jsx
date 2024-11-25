@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import Search from "../forms/Search";
 import Location from "../generic/Location";
 import HeaderSecondary from "../generic/HeaderSecondary";

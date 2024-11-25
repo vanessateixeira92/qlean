@@ -1,8 +1,7 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
-import Location from "../generic/Location";
 import HeaderSecondary from "../generic/HeaderSecondary";
 import NavBar from "../generic/NavBar";
 import Typography from "../generic/Typography";
@@ -18,11 +17,6 @@ const NearYouContainer = styled.div`
 
 const NearYouContent = styled.div`
   padding: 24px;
-`;
-
-const SearchSection = styled.div`
-  display: flex;
-  gap: 15px;
 `;
 
 const InfoSection = styled.div`
@@ -109,139 +103,144 @@ const GridContainer = styled.div`
 const NearYou = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const searchQuery = queryParams.get("search"); // Captura o parâmetro 'search' da URL
+  const searchQuery = queryParams.get("search")?.toLowerCase() || ""; // Captura o parâmetro 'search' da URL
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sortOption, setSortOption] = useState("Most Popular"); // Estado para a opção de ordenação
   const dropdownRef = useRef(null);
 
-  const [laundries] = useState([
+  const laundries = [
     {
       id: 1,
       title: "Wash & Fold",
       image: "/img/nearyou.jpg",
       rating: 4.3,
-      distance: "350m | 2 min",
+      distance: "350m",
     },
     {
       id: 2,
       title: "Laundry Pro",
       image: "/img/nearyou.jpg",
       rating: 4.0,
-      distance: "500m | 3 min",
+      distance: "500m",
     },
     {
       id: 3,
       title: "Quick Wash",
       image: "/img/nearyou.jpg",
       rating: 4.5,
-      distance: "800m | 5 min",
+      distance: "800m",
     },
     {
       id: 4,
       title: "Speed Wash",
       image: "/img/nearyou.jpg",
       rating: 4.7,
-      distance: "1.2km | 6 min",
+      distance: "1.2km",
     },
+
     {
       id: 5,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 6,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 7,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 8,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 9,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 10,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 11,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 12,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
+
     {
       id: 13,
-      title: "Clean Laundry",
+      title: "Speed Wash",
       image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
+      rating: 4.7,
+      distance: "1.2km",
     },
-    {
-      id: 14,
-      title: "Clean Laundry",
-      image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
-    },
-  ]);
+  ];
 
-  const filteredResults = laundries.filter((item) =>
-    item.title.toLowerCase().includes(searchQuery?.toLowerCase() || "")
-  );
-
-  // Função para mudar a opção de ordenação
-  const sortResults = (option) => {
-    switch (option) {
-      case "Most Popular":
-        return filteredResults.sort((a, b) => b.rating - a.rating);
-      case "Nearest":
-        return filteredResults.sort((a, b) => {
-          const aDistance = parseInt(a.distance);
-          const bDistance = parseInt(b.distance);
-          return aDistance - bDistance;
-        });
-      case "Highest Rated":
-        return filteredResults.sort((a, b) => b.rating - a.rating);
-      default:
-        return filteredResults;
+  // Função para converter distâncias para metros
+  const parseDistance = (distance) => {
+    if (distance.includes("km")) {
+      return parseFloat(distance) * 1000;
     }
+    return parseInt(distance);
   };
 
-  // Função para selecionar uma opção e fechar o dropdown automaticamente
+  // Filtrar resultados com base na busca
+  const filteredResults = laundries.filter((laundry) =>
+    laundry.title.toLowerCase().includes(searchQuery)
+  );
+
+  // Ordenar os resultados filtrados
+  const sortedResults = [...filteredResults].sort((a, b) => {
+    switch (sortOption) {
+      case "Nearest":
+        return parseDistance(a.distance) - parseDistance(b.distance);
+      case "Highest Rated":
+        return b.rating - a.rating;
+      default: // "Most Popular"
+        return b.rating - a.rating;
+    }
+  });
+
+  // Seleção de ordenação
   const handleSortOptionSelect = (option) => {
     setSortOption(option);
-    setDropdownOpen(false); // Fecha o dropdown automaticamente após seleção
+    setDropdownOpen(false);
   };
 
   return (
@@ -252,24 +251,19 @@ const NearYou = () => {
         <Search />
 
         <InfoSection>
-          <ResultsInfo>{filteredResults.length} results found</ResultsInfo>
+          <ResultsInfo>{sortedResults.length} results found</ResultsInfo>
           <MostPopularWrapper ref={dropdownRef}>
             <MostPopular>{sortOption}</MostPopular>
             <DropdownIcon onClick={() => setDropdownOpen(!dropdownOpen)} />
             <DropdownMenu isOpen={dropdownOpen}>
-              <DropdownItem
-                onClick={() => handleSortOptionSelect("Most Popular")}
-              >
-                Most Popular
-              </DropdownItem>
-              <DropdownItem onClick={() => handleSortOptionSelect("Nearest")}>
-                Nearest
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => handleSortOptionSelect("Highest Rated")}
-              >
-                Highest Rated
-              </DropdownItem>
+              {["Most Popular", "Nearest", "Highest Rated"].map((option) => (
+                <DropdownItem
+                  key={option}
+                  onClick={() => handleSortOptionSelect(option)}
+                >
+                  {option}
+                </DropdownItem>
+              ))}
             </DropdownMenu>
           </MostPopularWrapper>
         </InfoSection>
@@ -277,7 +271,7 @@ const NearYou = () => {
         <GridContent>
           <NearYouCards>Near You</NearYouCards>
           <GridContainer>
-            {laundries.map((laundry) => (
+            {sortedResults.map((laundry) => (
               <VerticalCard
                 key={laundry.id}
                 image={laundry.image}
