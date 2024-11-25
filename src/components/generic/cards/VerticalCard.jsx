@@ -60,7 +60,7 @@ const RatingBadge = styled.div`
 `;
 
 const StarIcon = styled.img`
-  width: 12px; /* Ajuste do tamanho da estrela */
+  width: 12px;
   height: auto;
 `;
 

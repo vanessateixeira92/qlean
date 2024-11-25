@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaSearch } from "react-icons/fa"; // Ícone de lupa
-import { useNavigate } from "react-router-dom"; // Para navegar para a página de resultados
+import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const LabelWrapper = styled.label`
   display: flex;
@@ -12,8 +12,8 @@ const LabelWrapper = styled.label`
   background: rgba(255, 255, 255, 1);
   border-radius: 8px;
   max-width: 335px;
-  position: relative; /* Garantir que o z-index tenha efeito */
-  z-index: 1; /* Garante que a label de pesquisa fique na frente do vetor */
+  position: relative;
+  z-index: 1;
 `;
 
 const InputText = styled.input`

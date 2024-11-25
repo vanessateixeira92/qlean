@@ -43,13 +43,11 @@ const AddressText = styled.p`
   color: ${Colors.textPrimary};
 `;
 
-// React Component
 const Location = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
   const [address, setAddress] = useState("");
 
-  // Substitua a chave da API pela variável de ambiente
   const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
@@ -100,7 +98,7 @@ const Location = () => {
     } else {
       setError("Geolocation is not supported by your browser.");
     }
-  }, [apiKey]); // Re-executa o efeito sempre que a chave API muda
+  }, [apiKey]);
 
   return (
     <LocationWrapper>

@@ -89,7 +89,7 @@ const RecentlyUsedCards = styled.h2`
 `;
 
 const Home = () => {
-  const [userName, setUserName] = useState("Guest"); // Definição do estado
+  const [userName, setUserName] = useState("Guest");
 
   useEffect(() => {
     // Verifica se o nome do usuário já está no localStorage

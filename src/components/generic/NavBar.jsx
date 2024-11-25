@@ -44,7 +44,7 @@ const NavItem = styled.div`
   }
 `;
 
-// Items de navegação com novos caminhos para os ícones SVG
+// Items de navegação
 const navItems = [
   { label: "Home", icon: "/icon/navbar/home.svg", path: "/home" },
   { label: "History", icon: "/icon/navbar/history.svg", path: "" },

@@ -152,7 +152,6 @@ const Login = () => {
           <ButtonContainer>
             <Button text="Login" variant="login" onClick={handleLogin} />
 
-            {/* Linha que separa com "or" */}
             <Separator />
 
             <Button

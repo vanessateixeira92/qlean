@@ -45,7 +45,7 @@ const AppRouter = () => {
 const App = () => {
   return (
     <Router>
-      <AppRouter /> {/* Rotas são agora gerenciadas no AppRouter */}
+      <AppRouter />
     </Router>
   );
 };
