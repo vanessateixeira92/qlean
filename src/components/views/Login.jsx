@@ -21,6 +21,7 @@ const LoginContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
+  position: relative;
 `;
 
 const TitleButtonContainer = styled.div`
