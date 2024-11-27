@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
 import HeaderSecondary from "../generic/HeaderSecondary";
@@ -28,10 +28,10 @@ const SearchAndFilterContainer = styled.div`
 `;
 
 const StyledSearch = styled(Search)`
-  width: 100%; /* Por padrão ocupa todo o espaço */
-  min-width: 400px; /* Limita a largura */
+  width: 100%;
+  min-width: 400px;
   @media (max-width: 768px) {
-    min-width: 300px; /* Para telas menores */
+    min-width: 300px;
   }
 `;
 
@@ -86,11 +86,11 @@ const GridContainer = styled.div`
 const NearYou = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const searchQuery = queryParams.get("search")?.toLowerCase() || ""; // Captura o parâmetro 'search' da URL
+  const initialSearchQuery = queryParams.get("search")?.toLowerCase() || ""; // Captura o parâmetro 'search' da URL
 
-  const [sortOption, setSortOption] = useState("Most Popular"); // Estado para a opção de ordenação
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery); // Definir o estado de pesquisa
+  const [sortOption, setSortOption] = useState("Most Popular");
+  const [isSortMenuOpen, setSortMenuOpen] = useState(false); // Estado para controlar o menu de ordenação
 
   const laundries = [
     {
@@ -195,20 +195,23 @@ const NearYou = () => {
     },
   ];
 
-  // Função para converter distâncias para metros
   const parseDistance = (distance) => {
+    if (!distance) return Infinity;
     if (distance.includes("km")) {
-      return parseFloat(distance) * 1000;
+      const valueInKm = parseFloat(distance.replace("km", "").trim());
+      return valueInKm * 1000;
     }
-    return parseInt(distance);
+    if (distance.includes("m")) {
+      const valueInM = parseInt(distance.replace("m", "").trim(), 10);
+      return valueInM;
+    }
+    return Infinity;
   };
 
-  // Filtrar resultados com base na busca
   const filteredResults = laundries.filter((laundry) =>
     laundry.title.toLowerCase().includes(searchQuery)
   );
 
-  // Ordenar os resultados filtrados
   const sortedResults = [...filteredResults].sort((a, b) => {
     switch (sortOption) {
       case "Nearest":
@@ -220,9 +223,7 @@ const NearYou = () => {
     }
   });
 
-  // Número total de laundries (não filtrados)
   const totalResults = laundries.length;
-  // Número de resultados visíveis após filtro e ordenação
   const visibleResults = sortedResults.length;
 
   return (
@@ -231,21 +232,25 @@ const NearYou = () => {
         <HeaderSecondary />
         <br />
         <SearchAndFilterContainer>
-          <StyledSearch />
+          {/* Passa o valor e a função setSearchQuery */}
+          <StyledSearch
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <Filter />
         </SearchAndFilterContainer>
-        {/* Exibir o número de resultados no formato "X of Y results" */}
-        <InfoSection></InfoSection>
+
         <InfoSection>
           <ResultsInfo>
             {visibleResults} of {totalResults} results
           </ResultsInfo>
-          {/* Componente SortMenu */}
           <SortMenu
+            isOpen={isSortMenuOpen}
+            onToggle={() => setSortMenuOpen(!isSortMenuOpen)}
             sortOption={sortOption}
             onSelectSortOption={(option) => {
-              setSortOption(option); // Atualiza o estado de sortOption
-              setDropdownOpen(false); // Fecha o menu suspenso, se necessário
+              setSortOption(option);
+              setSortMenuOpen(false);
             }}
           />
         </InfoSection>
