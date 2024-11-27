@@ -25,6 +25,8 @@ const TitleButtonContainer = styled.div`
   margin-bottom: 40px;
   flex-grow: 1;
   justify-content: flex-end;
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     margin-bottom: 10px;
