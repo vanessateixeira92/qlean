@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { BiSearchAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const LabelWrapper = styled.label`
   display: flex;
@@ -35,7 +36,7 @@ const SearchIcon = styled(BiSearchAlt)`
 
 const Search = ({ className }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate(); // Para navegar para a página NearYou
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -44,7 +45,6 @@ const Search = ({ className }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Navega para a página NearYou e passa o parâmetro de pesquisa na URL
       navigate(`/nearyou?search=${searchQuery}`);
     }
   };
@@ -62,6 +62,11 @@ const Search = ({ className }) => {
       </LabelWrapper>
     </form>
   );
+};
+
+// Add PropTypes validation
+Search.propTypes = {
+  className: PropTypes.string, // Validate className as a string
 };
 
 export default Search;

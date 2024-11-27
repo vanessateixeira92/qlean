@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Location from "../Location";
 import Typography from "../Typography";
@@ -98,6 +99,13 @@ const HorizontalCards = ({ image, title, rating }) => {
       </HorizontalRatingBadge>
     </FlexContainer>
   );
+};
+
+// Validação com PropTypes
+HorizontalCards.propTypes = {
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default HorizontalCards;

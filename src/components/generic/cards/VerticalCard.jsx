@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Location from "../Location";
 import Typography from "../Typography";
@@ -99,6 +100,14 @@ const VerticalCard = ({ image, title, rating, distance }) => {
       </CardTitle>
     </Card>
   );
+};
+
+// Define PropTypes
+VerticalCard.propTypes = {
+  image: PropTypes.string.isRequired, // Validate as a required string
+  title: PropTypes.string.isRequired, // Validate as a required string
+  rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // Validate as required string or number
+  distance: PropTypes.string.isRequired, // Validate as a required string
 };
 
 export default VerticalCard;

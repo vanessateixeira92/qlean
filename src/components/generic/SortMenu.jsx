@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useCallback } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Colors from "./Colors";
 import Typography from "./Typography";
@@ -11,10 +12,12 @@ const MostPopularWrapper = styled.div`
   cursor: pointer;
 `;
 
-const MostPopular = styled.p`
+const MostPopularButton = styled.button`
   font-size: ${Typography.p.xlarge.fontSize};
   line-height: ${Typography.p.xlarge.lineHeight};
   color: ${Colors.textMutedLight};
+  background: none;
+  border: none;
   cursor: pointer;
 
   @media (max-width: 768px) {
@@ -32,7 +35,7 @@ const DropdownIcon = styled.div`
   margin-left: 5px;
 `;
 
-const DropdownMenu = styled.div`
+const DropdownMenu = styled.ul`
   position: absolute;
   top: 100%;
   right: 0;
@@ -43,12 +46,15 @@ const DropdownMenu = styled.div`
   width: 150px;
   display: ${(props) => (props.isOpen ? "block" : "none")};
   z-index: 1000;
+  list-style: none;
+  margin: 0;
 `;
 
-const DropdownItem = styled.div`
+const DropdownItem = styled.li`
   padding: 8px;
   cursor: pointer;
   color: #333;
+
   &:hover {
     background-color: #f5f5f5;
   }
@@ -57,27 +63,39 @@ const DropdownItem = styled.div`
 const SortMenu = ({ sortOption, onSelectSortOption }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const toggleDropdown = useCallback(() => {
+    setDropdownOpen((prev) => !prev);
+  }, []);
+
+  const handleOptionSelect = useCallback(
+    (option) => {
+      onSelectSortOption(option); // Atualiza a opção no componente pai
+      setDropdownOpen(false); // Fecha o menu
+    },
+    [onSelectSortOption]
+  );
+
   return (
     <MostPopularWrapper>
-      <MostPopular onClick={() => setDropdownOpen(!dropdownOpen)}>
+      <MostPopularButton onClick={toggleDropdown}>
         {sortOption}
-      </MostPopular>
+      </MostPopularButton>
       <DropdownIcon />
       <DropdownMenu isOpen={dropdownOpen}>
         {["Most Popular", "Nearest", "Highest Rated"].map((option) => (
-          <DropdownItem
-            key={option}
-            onClick={() => {
-              onSelectSortOption(option); // Atualiza o sortOption no componente pai
-              setDropdownOpen(false); // Fecha o menu após selecionar
-            }}
-          >
+          <DropdownItem key={option} onClick={() => handleOptionSelect(option)}>
             {option}
           </DropdownItem>
         ))}
       </DropdownMenu>
     </MostPopularWrapper>
   );
+};
+
+// Validação de props
+SortMenu.propTypes = {
+  sortOption: PropTypes.string.isRequired, // A prop deve ser uma string obrigatória
+  onSelectSortOption: PropTypes.func.isRequired, // A prop deve ser uma função obrigatória
 };
 
 export default SortMenu;
