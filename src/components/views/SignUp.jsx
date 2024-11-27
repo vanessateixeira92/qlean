@@ -14,18 +14,30 @@ const SignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
   min-height: 100vh;
   box-sizing: border-box;
   width: 100%;
-  overflow: hidden;
+  overflow: scroll;
+`;
+
+const TitleButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
 `;
 
 const TitleContainer = styled.div`
   text-align: left;
   min-width: 335px;
-  margin-bottom: 80px;
+  margin-bottom: 90px;
 `;
 
 const SignUpTitle = styled.h1`
@@ -65,6 +77,11 @@ const FieldsContainer = styled.div`
     background: url(/wave.svg) no-repeat center;
     background-size: cover;
     z-index: -1;
+
+    @media (max-width: 768px) {
+      height: 160px;
+      top: -160px;
+    }
   }
 `;
 
@@ -124,59 +141,61 @@ const SignUp = () => {
   return (
     <SignUpContainer>
       <Header />
-      <TitleContainer>
-        <SignUpTitle>Sign Up</SignUpTitle>
-        <SignUpDescription>Create an account on Qlean</SignUpDescription>
-      </TitleContainer>
+      <TitleButtonContainer>
+        <TitleContainer>
+          <SignUpTitle>Sign Up</SignUpTitle>
+          <SignUpDescription>Create an account on Qlean</SignUpDescription>
+        </TitleContainer>
 
-      <FieldsContainer>
-        <InputContainer>
-          <InputField
-            type="text"
-            placeholder="Name"
-            icon="user"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <InputField
-            type="email"
-            placeholder="Email"
-            icon="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <PasswordInput
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <Checkbox
-            label="Remember me"
-            checked={acceptTerms}
-            onChange={(e) => setAcceptTerms(e.target.checked)}
-          />
-        </InputContainer>
+        <FieldsContainer>
+          <InputContainer>
+            <InputField
+              type="text"
+              placeholder="Name"
+              icon="user"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <InputField
+              type="email"
+              placeholder="Email"
+              icon="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <PasswordInput
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <Checkbox
+              label="Remember me"
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+            />
+          </InputContainer>
 
-        <ButtonContainer>
-          <Button text="Sign Up" variant="signUp" onClick={handleSignUp} />
-          <Separator />
-          <Button
-            text="Continue with Google"
-            variant="google"
-            onClick={handleGoogleSignUp}
-          />
-        </ButtonContainer>
+          <ButtonContainer>
+            <Button text="Sign Up" variant="signUp" onClick={handleSignUp} />
+            <Separator />
+            <Button
+              text="Continue with Google"
+              variant="google"
+              onClick={handleGoogleSignUp}
+            />
+          </ButtonContainer>
 
-        <SignUpFooter>
-          Already have an account? <a href="/login">Login now</a>
-        </SignUpFooter>
-      </FieldsContainer>
+          <SignUpFooter>
+            Already have an account? <a href="/login">Login now</a>
+          </SignUpFooter>
+        </FieldsContainer>
+      </TitleButtonContainer>
     </SignUpContainer>
   );
 };

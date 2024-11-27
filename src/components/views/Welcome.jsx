@@ -10,18 +10,25 @@ const WelcomeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
 `;
 
+const TitleButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+`;
+
 const TitleContainer = styled.div`
   text-align: left;
   min-width: 335px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `;
 
 const WelcomeTitle = styled.h1`
@@ -45,16 +52,18 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 335px;
-  margin-bottom: 40px;
 `;
 
 const Welcome = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <WelcomeContainer>
-        <Header />
+    <WelcomeContainer>
+      {/* Header no topo */}
+      <Header />
+
+      {/* Título e botões na parte inferior */}
+      <TitleButtonContainer>
         <TitleContainer>
           <WelcomeTitle>Welcome</WelcomeTitle>
           <WelcomeParagraph>
@@ -76,8 +85,8 @@ const Welcome = () => {
             onClick={() => navigate("/signup")}
           />
         </ButtonContainer>
-      </WelcomeContainer>
-    </div>
+      </TitleButtonContainer>
+    </WelcomeContainer>
   );
 };
 

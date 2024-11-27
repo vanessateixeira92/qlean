@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -40,5 +41,7 @@ const ReturnButton = ({ to }) => {
     </BackButton>
   );
 };
-
+ReturnButton.propTypes = {
+  to: PropTypes.string.isRequired,
+};
 export default ReturnButton;

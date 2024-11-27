@@ -3,15 +3,18 @@ import styled from "styled-components";
 
 const StyledHeader = styled.header`
   width: 100%;
-  min-width: 70px;
-  top: 28px;
-
+  display: flex;
+  align-items: start;
   z-index: 1000;
 `;
 
 const Logo = styled.img`
-  height: 40px;
+  height: 36px;
   width: auto;
+
+  @media (max-width: 768px) {
+    height: 30px;
+  }
 `;
 
 const HeaderSecondary = () => {

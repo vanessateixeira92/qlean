@@ -25,17 +25,28 @@ const CardTitle = styled.div`
   text-align: left;
 `;
 
-const Title = styled.h3`
-  font-size: ${Typography.h3.large.fontSize};
-  line-height: ${Typography.h3.large.lineHeight};
-  margin-bottom: 15px;
+const Title = styled.p`
+  font-size: ${Typography.p.xlarge.fontSize};
+  line-height: ${Typography.p.xlarge.lineHeight};
+  font-weight: ${Typography.p.medium.fontWeight};
+  margin-bottom: 5px;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.p.medium.fontSize};
+    line-height: ${Typography.p.medium.lineHeight};
+  }
 `;
 
 const Distance = styled.p`
   color: ${Colors.textMutedBlackStrong};
-  font-size: ${Typography.p.smallFooter.fontSize};
-  line-height: ${Typography.p.smallFooter.lineHeight};
-  margin-top: 40px;
+  font-size: ${Typography.p.medium.fontSize};
+  line-height: ${Typography.p.medium.lineHeight};
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.p.smallFooter.fontSize};
+    line-height: ${Typography.p.smallFooter.lineHeight};
+  }
 `;
 
 const RatingBadge = styled.div`
@@ -55,8 +66,12 @@ const RatingBadge = styled.div`
     rgba(255, 255, 255, 0.26) 100%
   );
   backdrop-filter: blur(8px);
-  font-size: ${Typography.p.xsmallCardLocation.fontSize};
+  font-size: ${Typography.p.medium.fontSize};
   line-height: ${Typography.p.xsmallCardLocation.lineHeight};
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.p.xsmallCardLocation.fontSize};
+  }
 `;
 
 const StarIcon = styled.img`

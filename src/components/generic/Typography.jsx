@@ -57,6 +57,9 @@ const Typography = {
       fontWeight: "400",
       lineHeight: "16.38px",
     },
+    strong: {
+      fontWeight: "500",
+    },
   },
 
   // Tamanhos de fonte para p
@@ -123,6 +126,8 @@ const Typography = {
       lineHeight: "8.82px",
     },
   },
+
+  fontWeightRegular: "400",
 };
 
 export default Typography;

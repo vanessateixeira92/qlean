@@ -101,12 +101,13 @@ const CardContent = styled.div`
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  align-items: center;
 `;
 
 const Washer = styled.h2`
   border-radius: 50%;
-  width: 85px;
-  height: 85px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,7 +123,6 @@ const Washer = styled.h2`
   @media (max-width: 768px) {
     width: 45px;
     height: 45px;
-    font-size: 20px;
   }
 `;
 
@@ -152,7 +152,7 @@ const ShoppingCart = styled.button`
   font-size: ${Typography.h2.large.fontSize};
   border-radius: 6px;
   color: ${Colors.textWhite};
-  padding: 20px 50px;
+  padding: 20px 30px;
   margin: 10px 0;
   text-align: center;
   cursor: pointer;
@@ -163,7 +163,7 @@ const AboutContent = styled.div`
   background: ${Colors.backgroundBlueViolet};
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
-  padding: 5px 24px 60px 24px;
+  padding: 5px 24px 100px 24px;
   color: ${Colors.textWhite};
   margin: 0;
 `;

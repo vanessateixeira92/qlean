@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaSearch } from "react-icons/fa";
+import { BiSearchAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const LabelWrapper = styled.label`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 350px;
   padding: 8px;
   border: 1px solid #ccc;
   background: rgba(255, 255, 255, 1);
   border-radius: 8px;
-  max-width: 335px;
   position: relative;
   z-index: 1;
+  height: 39px;
 `;
 
 const InputText = styled.input`
@@ -25,14 +25,15 @@ const InputText = styled.input`
   outline: none;
 `;
 
-const SearchIcon = styled(FaSearch)`
+const SearchIcon = styled(BiSearchAlt)`
   margin-left: 8px;
   width: 20px;
+  height: 20px;
   color: rgba(118, 118, 118, 1);
   cursor: pointer;
 `;
 
-const Search = () => {
+const Search = ({ className }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate(); // Para navegar para a página NearYou
 
@@ -50,7 +51,7 @@ const Search = () => {
 
   return (
     <form onSubmit={handleSearchSubmit}>
-      <LabelWrapper>
+      <LabelWrapper className={className}>
         <InputText
           type="text"
           placeholder="Search Laundry..."

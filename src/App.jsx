@@ -12,6 +12,7 @@ import Home from "./components/views/Home";
 import NearYou from "./components/views/NearYou";
 import WashFold from "./components/views/WashFold";
 import "./App.css";
+import GlobalStyle from "./GlobalStyle";
 
 // Componente AppRouter para gerenciar rotas
 const AppRouter = () => {
@@ -46,6 +47,7 @@ const AppRouter = () => {
 const App = () => {
   return (
     <Router>
+      <GlobalStyle />
       <AppRouter />
     </Router>
   );

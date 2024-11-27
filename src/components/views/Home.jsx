@@ -12,19 +12,20 @@ import HorizontalCard from "../generic/cards/HorizontalCard";
 // Estilos do layout
 const HomeContainer = styled.div`
   margin: 0 auto;
+  padding: 0;
   min-height: 100vh;
   overflow-y: auto;
 `;
 
 const HomeContent = styled.div`
-  padding: 24px;
+  padding: 10px 20px 10px 20px;
 `;
 
 // Vetor
 const VectorContainer = styled.div`
   position: absolute;
   top: 0;
-  right: 13px;
+  right: 0;
   z-index: -1;
 `;
 
@@ -32,6 +33,9 @@ const Vector = styled.img`
   width: auto;
   max-width: 255px;
   height: auto;
+  margin: 0;
+  padding: 0;
+
   @media (max-width: 768px) {
     max-width: 200px;
     margin: 0 auto;
@@ -40,52 +44,82 @@ const Vector = styled.img`
 
 const TitleContainer = styled.div`
   text-align: left;
+  margin-top: 20px;
 `;
 
 const WelcomeName = styled.h1`
-  font-size: ${Typography.h1.regular.fontSize};
-  line-height: ${Typography.h1.regular.lineHeight};
+  font-size: ${Typography.h1.medium.fontSize};
+  line-height: ${Typography.h1.medium.lineHeight};
+  font-weight: ${Typography.h1.regular.fontWeight};
   margin-bottom: 0;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.h1.regular.fontSize};
+    line-height: ${Typography.h1.regular.lineHeight};
+  }
 `;
 
 const NameUser = styled.h1`
-  font-size: ${Typography.h1.regular.fontSize};
-  line-height: ${Typography.h1.regular.lineHeight};
+  font-size: ${Typography.h1.medium.fontSize};
+  line-height: ${Typography.h1.medium.lineHeight};
+  font-weight: ${Typography.h1.regular.fontWeight};
   margin-top: 0;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.h1.regular.fontSize};
+    line-height: ${Typography.h1.regular.lineHeight};
+  }
 `;
 
 const CurrentLocation = styled.p`
   text-align: left;
-  font-size: ${Typography.p.smallFooter.fontSize};
+  font-size: ${Typography.p.large.fontSize};
   color: ${Colors.textLightGrey};
-  line-height: ${Typography.p.smallFooter.lineHeight};
+  line-height: ${Typography.p.large.lineHeight};
   margin-bottom: 5px;
+  margin-top: 40px;
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    font-size: ${Typography.p.smallFooter.fontSize};
+    line-height: ${Typography.p.smallFooter.lineHeight};
+  }
 `;
 
 const GridContent = styled.div`
-  margin-top: 20px;
+  margin-top: 40px;
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+  }
 `;
 
-const NearYouCards = styled.h2`
-  font-size: ${Typography.h2.medium.fontSize};
-  line-height: ${Typography.h2.medium.lineHeight};
+const TitleCards = styled.h2`
+  font-size: ${Typography.h2.large.fontSize};
+  line-height: ${Typography.h2.large.lineHeight};
+  font-weight: ${Typography.h2.medium.fontWeight};
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.h2.medium.fontSize};
+    line-height: ${Typography.h2.medium.lineHeight};
+  }
 `;
 
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
+  gap: 24px;
+  padding: 2px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(152px, 2fr));
+  }
 `;
 
 const FlexContent = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 70px;
-`;
-
-const RecentlyUsedCards = styled.h2`
-  font-size: ${Typography.h2.medium.fontSize};
-  margin-bottom: 20px;
 `;
 
 const Home = () => {
@@ -145,11 +179,12 @@ const Home = () => {
 
   return (
     <HomeContainer>
+      <VectorContainer>
+        <Vector src="/vector/laundry-vector.png" alt="Imagem 1" />
+      </VectorContainer>
       <HomeContent>
-        <VectorContainer>
-          <Vector src="/vector/laundry-vector.png" alt="Imagem 1" />
-        </VectorContainer>
         <HeaderSecondary />
+
         <TitleContainer>
           <WelcomeName>Welcome,</WelcomeName>
           <NameUser>{userName}</NameUser>
@@ -158,9 +193,9 @@ const Home = () => {
         <Location />
         <br />
         <Search />
-        <br />
+
         <GridContent>
-          <NearYouCards>Near You</NearYouCards>
+          <TitleCards>Near You</TitleCards>
           <GridContainer>
             {laundries.map((laundry) => (
               <VerticalCard
@@ -175,10 +210,11 @@ const Home = () => {
         </GridContent>
 
         <FlexContent>
-          <RecentlyUsedCards>Recently Used</RecentlyUsedCards>
+          <TitleCards>Recently Used</TitleCards>
 
           {laundries.map((laundry) => (
             <HorizontalCard
+              key={laundry.id}
               image={laundry.image}
               title={laundry.title}
               rating={laundry.rating}

@@ -15,18 +15,30 @@ const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0 auto;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
   width: 100%;
-  overflow: hidden;
+  overflow: scroll;
+`;
+
+const TitleButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
 `;
 
 const TitleContainer = styled.div`
   text-align: left;
   min-width: 335px;
-  margin-bottom: 80px;
+  margin-bottom: 90px;
 `;
 
 const LoginTitle = styled.h1`
@@ -67,6 +79,11 @@ const FieldsContainer = styled.div`
     background: url(/wave.svg) no-repeat center;
     background-size: cover;
     z-index: -1;
+
+    @media (max-width: 768px) {
+      height: 160px;
+      top: -160px;
+    }
   }
 `;
 
@@ -145,51 +162,53 @@ const Login = () => {
   return (
     <LoginContainer>
       <Header />
-      <TitleContainer>
-        <LoginTitle>Login</LoginTitle>
-        <LoginDescription>Login into your account!</LoginDescription>
-      </TitleContainer>
+      <TitleButtonContainer>
+        <TitleContainer>
+          <LoginTitle>Login</LoginTitle>
+          <LoginDescription>Login into your account!</LoginDescription>
+        </TitleContainer>
 
-      <FieldsContainer>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <InputContainer>
-          <InputField
-            type="email"
-            placeholder="Email"
-            icon="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <PasswordInput
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <Checkbox
-            label="Remember me"
-            checked={acceptTerms}
-            onChange={(e) => setAcceptTerms(e.target.checked)}
-          />
-        </InputContainer>
-        <ButtonContainer>
-          <Button text="Login" variant="login" onClick={handleLogin} />
+        <FieldsContainer>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <InputContainer>
+            <InputField
+              type="email"
+              placeholder="Email"
+              icon="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <PasswordInput
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <Checkbox
+              label="Remember me"
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+            />
+          </InputContainer>
+          <ButtonContainer>
+            <Button text="Login" variant="login" onClick={handleLogin} />
 
-          <Separator />
+            <Separator />
 
-          <Button
-            text="Continue with Google"
-            variant="google"
-            onClick={handleGoogleLogin}
-          />
-        </ButtonContainer>
-        <LoginFooter>
-          Don’t have an account? <a href="/signup">Sign Up now</a>
-        </LoginFooter>
-      </FieldsContainer>
+            <Button
+              text="Continue with Google"
+              variant="google"
+              onClick={handleGoogleLogin}
+            />
+          </ButtonContainer>
+          <LoginFooter>
+            Don’t have an account? <a href="/signup">Sign Up now</a>
+          </LoginFooter>
+        </FieldsContainer>
+      </TitleButtonContainer>
     </LoginContainer>
   );
 };

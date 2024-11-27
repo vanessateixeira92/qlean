@@ -6,11 +6,9 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  position: fixed;
+  height: 70px;
   width: 100%;
-  min-width: 126px;
-  top: 28px;
+  margin-top: 28px;
   z-index: 1000;
 `;
 

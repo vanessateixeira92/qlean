@@ -14,6 +14,7 @@ const FlexContainer = styled.div`
   margin: 10px 0;
   position: relative;
   cursor: pointer;
+  padding: 2px;
 `;
 
 const HorizontalCardImage = styled.img`
@@ -22,6 +23,11 @@ const HorizontalCardImage = styled.img`
   border-radius: 8px;
   object-fit: cover;
   margin-right: 16px;
+
+  @media ((max-width: 768px)) {
+    width: 52px;
+    height: 52px;
+  }
 `;
 
 const HorizontalCardContent = styled.div`
@@ -30,10 +36,17 @@ const HorizontalCardContent = styled.div`
   flex-grow: 1;
 `;
 
-const HorizontalCardTitle = styled.h3`
+const HorizontalCardTitle = styled.p`
   margin-bottom: 5px;
-  font-size: ${Typography.h3.large.fontSize};
-  line-height: ${Typography.h3.large.lineHeight};
+  font-size: ${Typography.p.xlarge.fontSize};
+  line-height: ${Typography.p.xlarge.lineHeight};
+  font-weight: ${Typography.p.large.fontWeight};
+  margin-bottom: 5px;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.p.medium.fontSize};
+    line-height: ${Typography.p.medium.lineHeight};
+  }
 `;
 
 const HorizontalRatingBadge = styled.div`
@@ -51,9 +64,13 @@ const HorizontalRatingBadge = styled.div`
     rgba(255, 255, 255, 0.26) 100%
   );
   backdrop-filter: blur(8px);
-  font-size: ${Typography.p.xsmallCardLocation.fontSize};
+  font-size: ${Typography.p.medium.fontSize};
   line-height: ${Typography.p.xsmallCardLocation.lineHeight};
   margin-left: auto;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.p.xsmallCardLocation.fontSize};
+  }
 `;
 
 const StarIcon = styled.img`
