@@ -6,7 +6,7 @@ const FilterButton = styled.button`
   background-color: #fff;
   border: none;
   cursor: pointer;
-  margin-top: 10px; /* Adiciona uma margem para o botão de filtro */
+  margin-top: 10px;
 
   img {
     width: 50px;
@@ -18,16 +18,16 @@ const FilterButton = styled.button`
   }
 `;
 
-// Overlay para fundo escurecido
+// Overlay para fundo escuro
 const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo cinza transparente */
+  background-color: rgba(0, 0, 0, 0.5);
   display: ${({ isVisible }) => (isVisible ? "block" : "none")};
-  z-index: 9998; /* Um nível abaixo do menu de filtros */
+  z-index: 9998;
 `;
 
 // Menu de Filtros
