@@ -13,7 +13,7 @@ const WashFoldContainer = styled.div`
 `;
 
 const WashFoldContent = styled.div`
-  padding: 24px;
+  padding: 10px 20px;
 `;
 
 // Estilos do cabeçalho com o nome de boas-vindas
@@ -69,11 +69,16 @@ const RatingBadge = styled.div`
 
 const LaundryImg = styled.img`
   width: 100%;
+  height: auto;
   display: block;
   border-radius: 18px;
-  min-width: 330px;
-  max-width: 800px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
 `;
 
 // Cards
@@ -81,7 +86,7 @@ const FlexContent = styled.div`
   width: 100%;
   background-color: ${Colors.backgroundWhite};
   box-sizing: border-box;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 70px;
 `;
 
@@ -156,6 +161,21 @@ const ShoppingCart = styled.button`
   margin: 10px 0;
   text-align: center;
   cursor: pointer;
+  display: flex; /* Usar flexbox */
+  align-items: center; /* Alinha os itens verticalmente */
+  gap: 10px; /* Espaço entre o preço e o ícone */
+
+  /* Media Query para mobile */
+  @media (max-width: 768px) {
+    margin-top: 15px; /* Aumentando o espaço superior */
+    padding: 15px 20px; /* Reduzindo o padding */
+    font-size: ${Typography.h2.medium.fontSize}; /* Font-size reduzido */
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 // About Section

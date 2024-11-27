@@ -12,7 +12,7 @@ const WelcomeContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
@@ -23,6 +23,8 @@ const TitleButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 40px;
+  flex-grow: 1; // Permite que o contêiner se expanda para ocupar o espaço restante
+  justify-content: flex-end;
 `;
 
 const TitleContainer = styled.div`

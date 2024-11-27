@@ -36,10 +36,11 @@ const FilterMenu = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%; /* Limite de largura */
-  height: 50%; /* Altura dinâmica */
+  width: 80%;
+  height: 60%;
+  max-height: 80vh;
 
-  overflow-y: auto; /* Adiciona rolagem, se necessário */
+  overflow-y: auto;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -48,10 +49,9 @@ const FilterMenu = styled.div`
   display: ${({ isVisible }) => (isVisible ? "block" : "none")};
   z-index: 9999;
 
-  /* Ajuste para telas pequenas */
   @media (max-width: 768px) {
-    width: 60%; /* Menor largura em mobile */
-    height: 20%;
+    width: 90%;
+    height: 60%;
   }
 `;
 

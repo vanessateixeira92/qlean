@@ -7,7 +7,8 @@ import PropTypes from "prop-types";
 const LabelWrapper = styled.label`
   display: flex;
   align-items: center;
-  width: 350px;
+  width: 100%;
+  max-width: 350px;
   padding: 8px;
   border: 1px solid #ccc;
   background: rgba(255, 255, 255, 1);
@@ -15,6 +16,7 @@ const LabelWrapper = styled.label`
   position: relative;
   z-index: 1;
   height: 39px;
+  box-sizing: border-box;
 `;
 
 const InputText = styled.input`
@@ -66,7 +68,7 @@ const Search = ({ className }) => {
 
 // Add PropTypes validation
 Search.propTypes = {
-  className: PropTypes.string, // Validate className as a string
+  className: PropTypes.string,
 };
 
 export default Search;

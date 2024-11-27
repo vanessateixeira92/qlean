@@ -14,11 +14,10 @@ const HomeContainer = styled.div`
   margin: 0 auto;
   padding: 0;
   min-height: 100vh;
-  overflow-y: auto;
 `;
 
 const HomeContent = styled.div`
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px;
 `;
 
 // Vetor
@@ -113,7 +112,7 @@ const GridContainer = styled.div`
   padding: 2px;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(152px, 2fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 

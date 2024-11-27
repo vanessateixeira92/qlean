@@ -18,7 +18,7 @@ const NearYouContainer = styled.div`
 `;
 
 const NearYouContent = styled.div`
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px;
 `;
 
 const SearchAndFilterContainer = styled.div`
@@ -79,7 +79,7 @@ const GridContainer = styled.div`
   align-items: start;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(152px, 2fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 

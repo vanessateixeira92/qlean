@@ -19,7 +19,7 @@ const SignUpContainer = styled.div`
   min-height: 100vh;
   box-sizing: border-box;
   width: 100%;
-  overflow: scroll;
+  overflow: hidden;
 `;
 
 const TitleButtonContainer = styled.div`
@@ -28,10 +28,8 @@ const TitleButtonContainer = styled.div`
   align-items: center;
   margin-bottom: 0;
   width: 100%;
-
-  @media (max-width: 768px) {
-    overflow: hidden;
-  }
+  flex-grow: 1;
+  justify-content: flex-end;
 `;
 
 const TitleContainer = styled.div`
