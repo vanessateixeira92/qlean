@@ -10,6 +10,12 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+   html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  } 
+  
   body {
     font-family: ${Typography.fontFamilyOutfit};
     color: ${Colors.textPrimary};

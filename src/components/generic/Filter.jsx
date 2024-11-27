@@ -50,8 +50,8 @@ const FilterMenu = styled.div`
   z-index: 9999;
 
   @media (max-width: 768px) {
-    width: 90%;
-    height: 60%;
+    width: 70%;
+    height: 30%;
   }
 `;
 

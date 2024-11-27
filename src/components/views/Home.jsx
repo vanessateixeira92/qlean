@@ -97,7 +97,7 @@ const TitleCards = styled.h2`
   font-size: ${Typography.h2.large.fontSize};
   line-height: ${Typography.h2.large.lineHeight};
   font-weight: ${Typography.h2.medium.fontWeight};
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   @media (max-width: 768px) {
     font-size: ${Typography.h2.medium.fontSize};
