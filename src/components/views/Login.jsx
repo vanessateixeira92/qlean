@@ -24,6 +24,7 @@ const LoginContainer = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
+    height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
   }
 `;

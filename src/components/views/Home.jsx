@@ -15,6 +15,11 @@ const HomeContainer = styled.div`
   margin: 0 auto;
   padding: 0;
   min-height: 100vh;
+  overflow-y: auto;
+
+  @media (max-width: 768px) {
+    height: calc(var(--vh, 1vh) * 100);
+  }
 `;
 
 const HomeContent = styled.div`

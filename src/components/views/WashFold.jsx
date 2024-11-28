@@ -10,6 +10,10 @@ const WashFoldContainer = styled.div`
   min-height: 100vh;
   overflow-y: auto;
   position: relative;
+
+  @media (max-width: 768px) {
+    height: calc(var(--vh, 1vh) * 100);
+  }
 `;
 
 const WashFoldContent = styled.div`
