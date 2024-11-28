@@ -40,7 +40,7 @@ const TitleContainer = styled.div`
   text-align: left;
   width: 90%;
   max-width: 335px;
-  margin-bottom: 7%;
+  margin-bottom: 5%;
   box-sizing: border-box;
 
   @media (max-width: 768px) {

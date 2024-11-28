@@ -8,7 +8,6 @@ import Typography from "../generic/Typography";
 import Colors from "../generic/Colors";
 import VerticalCard from "../generic/cards/VerticalCard";
 import SortMenu from "../generic/SortMenu";
-import Filter from "../generic/Filter";
 
 const NearYouContainer = styled.div`
   margin: 0 auto;
@@ -23,11 +22,6 @@ const NearYouContainer = styled.div`
 
 const NearYouContent = styled.div`
   padding: 10px 20px;
-`;
-
-const SearchAndFilterContainer = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const StyledSearch = styled(Search)`
@@ -234,13 +228,11 @@ const NearYou = () => {
       <NearYouContent>
         <HeaderSecondary />
         <br />
-        <SearchAndFilterContainer>
-          <StyledSearch
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Filter />
-        </SearchAndFilterContainer>
+
+        <StyledSearch
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
 
         <InfoSection>
           <ResultsInfo>
