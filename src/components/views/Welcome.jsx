@@ -15,7 +15,6 @@ const WelcomeContainer = styled.div`
   height: 100vh;
   box-sizing: border-box;
   width: 100%;
-  overflow-y: auto;
   padding: 0;
   position: relative;
 

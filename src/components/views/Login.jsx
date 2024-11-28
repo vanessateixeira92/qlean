@@ -20,7 +20,6 @@ const LoginContainer = styled.div`
   box-sizing: border-box;
   padding: 0;
   width: 100%;
-  overflow-y: auto;
   position: relative;
 
   @media (max-width: 768px) {
