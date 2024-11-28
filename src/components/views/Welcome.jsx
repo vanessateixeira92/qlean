@@ -17,6 +17,10 @@ const WelcomeContainer = styled.div`
   width: 100%;
   overflow: hidden;
   padding: 0;
+
+  @media (max-width: 768px) {
+    height: calc(100vh - 56px);
+  }
 `;
 
 const TitleButtonContainer = styled.div`
@@ -26,6 +30,7 @@ const TitleButtonContainer = styled.div`
   margin-bottom: 40px;
   width: 100%;
   box-sizing: border-box;
+  flex-grow: 1;
 
   @media (max-width: 768px) {
     margin-bottom: 10px;
