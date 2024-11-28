@@ -14,22 +14,13 @@ import axios from "axios";
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
-  margin: 0 auto;
+  align-items: center;
   min-height: 100vh;
   box-sizing: border-box;
+  padding: 0;
   width: 100%;
   overflow: hidden;
-  position: relative;
-
-  @media (max-width: 768px) {
-    min-height: 1024px;
-  }
-
-  @media (max-width: 390px) {
-    min-height: 844px;
-  }
 `;
 
 const TitleButtonContainer = styled.div`
@@ -38,14 +29,18 @@ const TitleButtonContainer = styled.div`
   align-items: center;
   margin-bottom: 0;
   width: 100%;
-  flex-grow: 1;
-  justify-content: flex-end;
 `;
 
 const TitleContainer = styled.div`
   text-align: left;
-  min-width: 335px;
-  margin-bottom: 90px;
+  width: 90%;
+  max-width: 335px;
+  margin-bottom: 7%;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    margin-bottom: 15%;
+  }
 `;
 
 const LoginTitle = styled.h1`
@@ -88,8 +83,8 @@ const FieldsContainer = styled.div`
     z-index: -1;
 
     @media (max-width: 768px) {
-      height: 160px;
-      top: -160px;
+      height: 120px;
+      top: -120px;
     }
   }
 `;

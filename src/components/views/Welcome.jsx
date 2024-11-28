@@ -16,15 +16,7 @@ const WelcomeContainer = styled.div`
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
-  position: relative;
-
-  @media (max-width: 768px) {
-    min-height: 1024px;
-  }
-
-  @media (max-width: 390px) {
-    min-height: 844px;
-  }
+  padding: 0;
 `;
 
 const TitleButtonContainer = styled.div`
@@ -32,8 +24,6 @@ const TitleButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 40px;
-  flex-grow: 1;
-  justify-content: flex-end;
   width: 100%;
   box-sizing: border-box;
 
@@ -44,8 +34,10 @@ const TitleButtonContainer = styled.div`
 
 const TitleContainer = styled.div`
   text-align: left;
-  min-width: 335px;
-  margin-bottom: 20px;
+  width: 90%;
+  max-width: 335px;
+  margin-bottom: 5%;
+  box-sizing: border-box;
 `;
 
 const WelcomeTitle = styled.h1`

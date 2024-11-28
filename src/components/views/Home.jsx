@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
@@ -122,7 +123,13 @@ const FlexContent = styled.div`
 `;
 
 const Home = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
   const [userName, setUserName] = useState("Guest");
+
+  const handleSearch = () => {
+    navigate(`/near-you?search=${searchQuery}`);
+  };
 
   useEffect(() => {
     // Verifica se o nome do usuário já está no localStorage
@@ -191,7 +198,11 @@ const Home = () => {
         <CurrentLocation>Current Location</CurrentLocation>
         <Location />
         <br />
-        <Search />
+        <Search
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onSearch={handleSearch} // Função chamada ao buscar
+        />
 
         <GridContent>
           <TitleCards>Near You</TitleCards>
