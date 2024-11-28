@@ -22,7 +22,8 @@ body {
 }
 
 @media (max-width: 768px) {
-  html {
+  html,
+  body {
     height: calc(var(--vh, 1vh) * 100);
   }
 }
