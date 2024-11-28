@@ -20,11 +20,11 @@ const LoginContainer = styled.div`
   box-sizing: border-box;
   padding: 0;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
 
   @media (max-width: 768px) {
-    height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
   }
 `;
 

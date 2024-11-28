@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./App.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-// Calculando a altura da viewport e criando a variável --vh
-let vh = window.innerHeight * 0.01;
-document.documentElement.style.setProperty("--vh", `${vh}px`);
-
-// Atualiza a variável --vh ao redimensionar a janela (para lidar com mudanças de orientação ou redimensionamento)
-window.addEventListener("resize", () => {
-  vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty("--vh", `${vh}px`);
-});
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const AppWrapper = () => {
+  useEffect(() => {
+    // Calculando a altura da viewport e criando a variável --vh
+    const updateVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    // Atualiza a variável --vh ao redimensionar a janela (para lidar com mudanças de orientação ou redimensionamento)
+    updateVH(); // Atualiza inicialmente ao montar o componente
+    window.addEventListener("resize", updateVH);
+
+    // Limpeza do event listener para evitar memory leaks
+    return () => {
+      window.removeEventListener("resize", updateVH);
+    };
+  }, []);
+
+  return <App />;
+};
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AppWrapper />
   </React.StrictMode>
 );
 

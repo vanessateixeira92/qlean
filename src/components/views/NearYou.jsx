@@ -231,7 +231,6 @@ const NearYou = () => {
         <HeaderSecondary />
         <br />
         <SearchAndFilterContainer>
-          {/* Passa o valor e a função setSearchQuery */}
           <StyledSearch
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
