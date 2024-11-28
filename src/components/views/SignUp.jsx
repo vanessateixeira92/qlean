@@ -21,6 +21,14 @@ const SignUpContainer = styled.div`
   width: 100%;
   overflow: hidden;
   position: relative;
+
+  @media (max-width: 768px) {
+    min-height: 1024px;
+  }
+
+  @media (max-width: 390px) {
+    min-height: 844px;
+  }
 `;
 
 const TitleButtonContainer = styled.div`
