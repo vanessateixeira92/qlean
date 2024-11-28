@@ -19,12 +19,11 @@ const SignUpContainer = styled.div`
   height: 100vh;
   box-sizing: border-box;
   width: 100%;
-  overflow: scroll;
+  overflow-y: auto;
   position: relative;
 
   @media (max-width: 768px) {
     height: calc(var(--vh, 1vh) * 100);
-    overflow: hidden;
   }
 `;
 
