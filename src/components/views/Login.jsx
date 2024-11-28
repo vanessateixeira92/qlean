@@ -21,9 +21,10 @@ const LoginContainer = styled.div`
   padding: 0;
   width: 100%;
   overflow: hidden;
+  position: relative;
 
   @media (max-width: 768px) {
-    height: 100vh;
+    min-height: calc(100vh - 56px - 80px);
   }
 `;
 
@@ -33,7 +34,6 @@ const TitleButtonContainer = styled.div`
   align-items: center;
   margin-bottom: 0;
   width: 100%;
-  flex-grow: 1;
 `;
 
 const TitleContainer = styled.div`
@@ -75,7 +75,6 @@ const FieldsContainer = styled.div`
   background: ${Colors.backgroundWhite};
   padding: 0 20px 20px;
   margin-bottom: 0;
-  flex-grow: 1;
 
   &::after {
     content: "";
