@@ -16,7 +16,7 @@ const LoginContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
   padding: 0;
   width: 100%;
@@ -24,7 +24,7 @@ const LoginContainer = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    min-height: calc(100vh - 56px - 80px);
+    height: calc(var(--vh, 1vh) * 100);
   }
 `;
 

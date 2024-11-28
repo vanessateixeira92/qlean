@@ -5,6 +5,16 @@ import "./App.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// Calculando a altura da viewport e criando a variável --vh
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+// Atualiza a variável --vh ao redimensionar a janela (para lidar com mudanças de orientação ou redimensionamento)
+window.addEventListener("resize", () => {
+  vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

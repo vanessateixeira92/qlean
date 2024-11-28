@@ -12,7 +12,7 @@ const WelcomeContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
-  min-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
@@ -20,7 +20,7 @@ const WelcomeContainer = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    min-height: calc(100vh - 56px - 80px);
+    height: calc(var(--vh, 1vh) * 100);
   }
 `;
 
