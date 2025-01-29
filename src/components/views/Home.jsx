@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
-import Location from "../generic/Location";
+import Location from "../generic/Location/Location";
 import HeaderSecondary from "../generic/HeaderSecondary";
 import NavBar from "../generic/NavBar";
 import Typography from "../generic/Typography";
@@ -10,7 +10,6 @@ import Colors from "../generic/Colors";
 import VerticalCard from "../generic/cards/VerticalCard";
 import HorizontalCard from "../generic/cards/HorizontalCard";
 
-// Estilos do layout
 const HomeContainer = styled.div`
   margin: 0 auto;
   padding: 0;
@@ -25,7 +24,7 @@ const HomeContent = styled.div`
   padding: 10px 20px;
 `;
 
-// Vetor
+// Vector
 const VectorContainer = styled.div`
   position: absolute;
   top: 0;
@@ -63,18 +62,6 @@ const WelcomeName = styled.h1`
   }
 `;
 
-const NameUser = styled.h1`
-  font-size: ${Typography.h1.medium.fontSize};
-  line-height: ${Typography.h1.medium.lineHeight};
-  font-weight: ${Typography.h1.regular.fontWeight};
-  margin-top: 0;
-
-  @media (max-width: 768px) {
-    font-size: ${Typography.h1.regular.fontSize};
-    line-height: ${Typography.h1.regular.lineHeight};
-  }
-`;
-
 const CurrentLocation = styled.p`
   text-align: left;
   font-size: ${Typography.p.large.fontSize};
@@ -91,10 +78,10 @@ const CurrentLocation = styled.p`
 `;
 
 const GridContent = styled.div`
-  margin-top: 40px;
+  margin-top: 80px;
 
   @media (max-width: 768px) {
-    margin-top: 20px;
+    margin-top: 45px;
   }
 `;
 
@@ -122,70 +109,69 @@ const GridContainer = styled.div`
 `;
 
 const FlexContent = styled.div`
-  margin-top: 30px;
-  margin-bottom: 70px;
+  margin-top: 50px;
+  margin-bottom: 80px;
+
+  @media (max-width: 768px) {
+    margin-top: 30px;
+  }
 `;
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [maxCards, setMaxCards] = useState(6);
+  const [laundries, setLaundries] = useState([]);
   const navigate = useNavigate();
-  const [userName, setUserName] = useState("Guest");
 
+  // Fazer a requisição ao endpoint para ir buscar as lavandarias
+  useEffect(() => {
+    const fetchLaundries = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error fetching laundries: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        console.log("Resposta da API:", responseData);
+        setLaundries(responseData.data || []);
+        console.log("Laundries:", responseData.data || []);
+      } catch (error) {
+        console.error("Failed to fetch laundries:", error.message);
+      }
+    };
+
+    fetchLaundries();
+  }, []);
   const handleSearch = () => {
-    navigate(`/near-you?search=${searchQuery}`);
+    console.log("Navigating with search query:", searchQuery);
+    navigate(`/laundryresults?search=${searchQuery}`);
   };
 
+  // Efeito para detectar a mudança do tamanho de ecra
   useEffect(() => {
-    // Verifica se o nome do usuário já está no localStorage
-    const storedName = localStorage.getItem("userName");
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setMaxCards(2); // Exibe apenas 2 cards em ecras pequenas
+      } else {
+        setMaxCards(6); // Exibe todos os cards em ecras grandes
+      }
+    };
 
-    if (!storedName) {
-      // Se o nome não estiver no localStorage, define um valor padrão
-      localStorage.setItem("userName", "Vanessa");
-    }
+    // Adiciona o evento de resize ao redimensionar a janela
+    window.addEventListener("resize", handleResize);
 
-    // Atualiza o estado com o nome armazenado ou o valor padrão
-    setUserName(storedName || "Vanessa");
-  }, []);
+    // Chama a função inicial para definir o maxCards baseado no tamanho atual
+    handleResize();
 
-  // Simulação de dados de lavandarias
-  const [laundries] = useState([
-    {
-      id: 1,
-      title: "Wash & Fold",
-      image: "/img/nearyou.jpg",
-      rating: 4.3,
-      distance: "350m | 2 min",
-    },
-    {
-      id: 2,
-      title: "Laundry Pro",
-      image: "/img/nearyou.jpg",
-      rating: 4.0,
-      distance: "500m | 3 min",
-    },
-    {
-      id: 3,
-      title: "Quick Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.5,
-      distance: "800m | 5 min",
-    },
-    {
-      id: 4,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
-    {
-      id: 5,
-      title: "Clean Laundry",
-      image: "/img/nearyou.jpg",
-      rating: 4.2,
-      distance: "600m | 4 min",
-    },
-  ]);
+    // Limpeza do evento ao desmontar o componente
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Executa apenas uma vez ao montar o componente
 
   return (
     <HomeContainer>
@@ -196,8 +182,7 @@ const Home = () => {
         <HeaderSecondary />
 
         <TitleContainer>
-          <WelcomeName>Welcome,</WelcomeName>
-          <NameUser>{userName}</NameUser>
+          <WelcomeName>Welcome</WelcomeName>
         </TitleContainer>
         <CurrentLocation>Current Location</CurrentLocation>
         <Location />
@@ -205,19 +190,27 @@ const Home = () => {
         <Search
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onSearch={handleSearch} // Função chamada ao buscar
+          onSearch={handleSearch}
         />
 
         <GridContent>
           <TitleCards>Near You</TitleCards>
           <GridContainer>
-            {laundries.map((laundry) => (
+            {console.log("Detalhes da lavanderia:", laundries)}
+            {laundries.slice(0, maxCards).map((laundry) => (
               <VerticalCard
-                key={laundry.id}
-                image={laundry.image}
-                title={laundry.title}
-                rating={laundry.rating}
-                distance={laundry.distance}
+                key={laundry.laundryID}
+                laundryID={laundry.laundryID}
+                picture={laundry.picture}
+                name={laundry.name}
+                description={laundry.description}
+                numRatings={laundry.numRatings}
+                sumRatings={laundry.sumRatings}
+                locationDetail={laundry.locationDetail}
+                locationCity={laundry.locationCity}
+                onClick={() =>
+                  navigate(`/washfold?laundry=${laundry.laundryID}`)
+                }
               />
             ))}
           </GridContainer>
@@ -228,10 +221,15 @@ const Home = () => {
 
           {laundries.map((laundry) => (
             <HorizontalCard
-              key={laundry.id}
-              image={laundry.image}
-              title={laundry.title}
-              rating={laundry.rating}
+              key={laundry.laundryID}
+              laundryID={laundry.laundryID}
+              picture={laundry.picture}
+              name={laundry.name}
+              numRatings={laundry.numRatings}
+              sumRatings={laundry.sumRatings}
+              locationDetail={laundry.locationDetail}
+              locationCity={laundry.locationCity}
+              onClick={() => navigate(`/washfold?laundry=${laundry.laundryID}`)}
             />
           ))}
         </FlexContent>

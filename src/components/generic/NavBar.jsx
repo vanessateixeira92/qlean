@@ -24,7 +24,7 @@ const NavBarContainer = styled.nav`
 // Items da NavBar
 const NavItem = styled.div`
   color: ${(props) =>
-    props.isActive ? Colors.textAquaVibrant : Colors.textLightGrey};
+    props.$isActive ? Colors.textAquaVibrant : Colors.textLightGrey};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,9 +47,7 @@ const NavItem = styled.div`
 // Items de navegação
 const navItems = [
   { label: "Home", icon: "/icon/navbar/home.svg", path: "/home" },
-  { label: "History", icon: "/icon/navbar/history.svg", path: "" },
-  { label: "Search", icon: "/icon/navbar/search.svg", path: "/nearyou" },
-  { label: "Profile", icon: "/icon/navbar/profile.svg", path: "" },
+  { label: "Search", icon: "/icon/navbar/search.svg", path: "/laundryresults" },
 ];
 
 const NavBar = () => {
@@ -61,7 +59,7 @@ const NavBar = () => {
       {navItems.map((item) => (
         <NavItem
           key={item.path}
-          isActive={location.pathname === item.path}
+          $isActive={location.pathname === item.path}
           onClick={() => navigate(item.path)}
         >
           <img src={item.icon} alt={item.label} />

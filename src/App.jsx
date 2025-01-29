@@ -6,11 +6,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import Welcome from "./components/views/Welcome";
-import Login from "./components/views/Login";
-import SignUp from "./components/views/SignUp";
 import Home from "./components/views/Home";
-import NearYou from "./components/views/NearYou";
+import LaundryResults from "./components/views/LaundryResults";
 import WashFold from "./components/views/WashFold";
+import Payment from "./components/views/Payment";
 import "./App.css";
 import GlobalStyle from "./GlobalStyle";
 
@@ -34,11 +33,10 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/nearyou" element={<NearYou />} />
+      <Route path="/laundryresults" element={<LaundryResults />} />
       <Route path="/washfold" element={<WashFold />} />
+      <Route path="/payment" element={<Payment />} />
       <Route path="/login/home" element={<Home />} />
     </Routes>
   );
@@ -46,7 +44,7 @@ const AppRouter = () => {
 
 const App = () => {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <GlobalStyle />
       <AppRouter />
     </Router>

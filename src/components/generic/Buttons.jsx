@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FcGoogle } from "react-icons/fc";
 import PropTypes from "prop-types";
 import Colors from "./Colors";
+import Typography from "./Typography";
 
 // Container
 const ButtonContainer = styled.div`
@@ -16,8 +17,9 @@ const BaseButton = styled.button`
   margin: 10px 0;
   height: 45px;
   padding: 10px 22px;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: ${Typography.p.xlarge.fontSize};
+  font-weight: ${Typography.p.large.fontWeight};
+  font-family: ${Typography.fontFamilyOutfit};
   border-radius: 6px;
   width: 100%;
   transition: transform 300ms ease-out;
@@ -30,6 +32,12 @@ const BaseButton = styled.button`
   &:hover {
     transform: scale(1.05);
   }
+`;
+
+// Botão para Enter
+const EnterButton = styled(BaseButton)`
+  background-color: ${Colors.backgroundWhite};
+  color: ${Colors.textPrimary};
 `;
 
 // Botão para "Login Welcome"
@@ -69,9 +77,33 @@ const GoogleButton = styled(BaseButton)`
   }
 `;
 
+// Botão para MBWAY
+const MBWAYButton = styled(BaseButton)`
+  background-color: ${Colors.backgroundBlueViolet};
+  color: ${Colors.textWhite};
+  border: none;
+`;
+
+// Botão para ScheduleMBWAY
+const ScheduleButton = styled(BaseButton)`
+  background-color: ${Colors.backgroundBlueViolet};
+  color: ${Colors.textWhite};
+  border: none;
+`;
+
+// Botão para MBWAYDone
+const DoneButton = styled(BaseButton)`
+  background-color: ${Colors.backgroundBlueViolet};
+  color: ${Colors.textWhite};
+  border: none;
+`;
+
 const Button = ({ text, variant = "primary", onClick }) => {
   return (
     <ButtonContainer>
+      {variant === "enter" && (
+        <EnterButton onClick={onClick}>{text}</EnterButton>
+      )}
       {variant === "loginWelcome" && (
         <LoginWelcomeButton onClick={onClick}>{text}</LoginWelcomeButton>
       )}
@@ -90,6 +122,17 @@ const Button = ({ text, variant = "primary", onClick }) => {
           {text}
         </GoogleButton>
       )}
+      {variant === "mbway" && (
+        <MBWAYButton onClick={onClick}>
+          {text} <img src="/icon/mbway.svg" alt="mbway icon" />
+        </MBWAYButton>
+      )}
+      {variant === "schedule" && (
+        <ScheduleButton onClick={onClick}>
+          {text} <img src="/icon/mbway.svg" alt="mbway icon" />
+        </ScheduleButton>
+      )}
+      {variant === "done" && <DoneButton onClick={onClick}>{text}</DoneButton>}
     </ButtonContainer>
   );
 };

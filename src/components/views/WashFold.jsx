@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import Location from "../generic/Location";
-import Typography from "../generic/Typography";
-import Colors from "../generic/Colors";
+import Typography from "../generic/Typography.jsx";
+import Colors from "../generic/Colors.jsx";
 import ReturnButton from "../generic/ReturnButton.jsx";
+import CardWasher from "../generic/cards/CardWasher.jsx";
 
 const WashFoldContainer = styled.div`
   margin: 0 auto;
   min-height: 100vh;
   overflow-y: auto;
+  margin: 0 auto;
   position: relative;
 
   @media (max-width: 768px) {
@@ -72,7 +74,7 @@ const RatingBadge = styled.div`
 `;
 
 const LaundryImg = styled.img`
-  width: 100%;
+  width: 800px;
   height: auto;
   display: block;
   border-radius: 18px;
@@ -88,103 +90,19 @@ const LaundryImg = styled.img`
 // Cards
 const FlexContent = styled.div`
   width: 100%;
+  max-width: 800px;
   background-color: ${Colors.backgroundWhite};
   box-sizing: border-box;
-  margin-top: 10px;
-  margin-bottom: 70px;
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${Colors.backgroundWhite};
-  border-radius: 15px;
-  border: 1px solid rgba(131, 80, 219, 1);
-  padding: 0 10px;
-  margin: 10px 0;
-  position: relative;
-`;
-
-const CardContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  align-items: center;
-`;
-
-const Washer = styled.h2`
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: 3px solid rgba(131, 80, 219, 1);
-  color: ${Colors.textBlueViolet};
-  font-size: ${Typography.h2.large.fontSize};
-  font-weight: ${Typography.h2.large.fontWeight};
-  line-height: ${Typography.h2.large.lineHeight};
-  margin-right: 16px;
-
-  /* Media Query (mobile) */
-  @media (max-width: 768px) {
-    width: 45px;
-    height: 45px;
-  }
-`;
-
-const WasherContent = styled.h1`
+  margin: 20px auto;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  align-items: flex-start;
-  margin: 0;
-  justify-content: center;
-`;
-
-const Weight = styled.p`
-  font-size: ${Typography.p.xlarge.fontSize};
-  margin-bottom: 0;
-`;
-
-const Time = styled.p`
-  font-size: ${Typography.p.smallCardTime.fontSize};
-  color: ${Colors.textLightGrey};
-  margin-top: 0;
-`;
-
-const ShoppingCart = styled.button`
-  background: ${Colors.backgroundAquaVibrant};
-  border: none;
-  font-size: ${Typography.h2.large.fontSize};
-  border-radius: 6px;
-  color: ${Colors.textWhite};
-  padding: 20px 30px;
-  margin: 10px 0;
-  text-align: center;
-  cursor: pointer;
-  display: flex; /* Usar flexbox */
-  align-items: center; /* Alinha os itens verticalmente */
-  gap: 10px; /* Espaço entre o preço e o ícone */
-
-  /* Media Query para mobile */
-  @media (max-width: 768px) {
-    margin-top: 15px; /* Aumentando o espaço superior */
-    padding: 15px 20px; /* Reduzindo o padding */
-    font-size: ${Typography.h2.medium.fontSize}; /* Font-size reduzido */
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
+  align-items: center;
 `;
 
 // About Section
 const AboutContent = styled.div`
   background: ${Colors.backgroundBlueViolet};
+  font-family: ${Typography.fontFamilyOutfit};
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   padding: 5px 24px 100px 24px;
@@ -194,8 +112,9 @@ const AboutContent = styled.div`
 
 const AboutTitle = styled.h2`
   font-size: ${Typography.h2.medium.fontSize};
-
-  margin-bottom: 0%;
+  font-weight: ${Typography.h2.medium.fontWeight};
+  margin-bottom: 10px;
+  margin-top: 20px;
 `;
 
 const AboutInfo = styled.p`
@@ -207,113 +126,158 @@ const AboutInfo = styled.p`
   }
 `;
 
-const AboutLink = styled.a`
-  color: ${Colors.textAquaVibrant};
-  text-decoration: none;
-`;
-
 const WashFold = () => {
+  const [searchParams] = useSearchParams();
+  const laundryId = searchParams.get("laundry");
+  console.log("Laundry ID from useParams: ", laundryId);
+  const [laundryInfo, setLaundryInfo] = useState(null);
+  const [machineDataState, setMachineData] = useState([]);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // Estado para indicar carregamento
+  const [error, setError] = useState(null); // Estado para erros
+
+  // Fazer a requisição à API para buscar os dados da lavandaria com esse ID
+  useEffect(() => {
+    const fetchLaundryInfo = async () => {
+      try {
+        if (!laundryId) {
+          console.error("ID da lavanderia não fornecido.");
+          navigate("/laundryresults"); // Redirecionar caso o ID não esteja presente
+          return;
+        }
+
+        setLoading(true); // Inicia carregamento
+        setError(null);
+
+        // Fetch da lavanderia
+        const laundryResponse = await fetch(
+          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}`
+        );
+
+        console.log("Laundry ID:", laundryId);
+
+        const laundryResult = await laundryResponse.json();
+
+        console.log("Laundry Response:", laundryResult);
+        if (laundryResponse.ok && laundryResult.data.length > 0) {
+          setLaundryInfo(laundryResult.data[0]); // Atualiza os dados da lavanderia
+          console.log(
+            "Dados da lavanderia armazenados no estado:",
+            laundryResult.data[0]
+          );
+        } else {
+          setError("Erro ao carregar os dados da lavanderia.");
+        }
+
+        // Fetch das máquinas
+        const machineResponse = await fetch(
+          `${process.env.REACT_APP_GET_MACHINES_API_URL}`
+        );
+
+        const machineResult = await machineResponse.json();
+
+        console.log(
+          "Machine Response JSON:",
+          JSON.stringify(machineResult, null, 2)
+        );
+
+        if (machineResponse.ok && machineResult.data.length > 0) {
+          setMachineData(
+            machineResult.data.sort((a, b) => a.machineID - b.machineID)
+          ); // Ordena por ID
+          console.log("Máquinas carregadas:", machineResult.data);
+        } else {
+          throw new Error("Erro ao carregar os dados das máquinas.");
+        }
+      } catch (error) {
+        setError("Erro ao ir buscar os dados da lavanderia.");
+      } finally {
+        setLoading(false); // Finaliza o carregamento
+      }
+    };
+
+    fetchLaundryInfo();
+  }, [navigate, laundryId]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Indicador de carregamento
+  }
+
+  if (error) {
+    return <div>{error}</div>; // Mensagem de erro
+  }
+
+  if (!laundryInfo) {
+    return <div>Dados da lavanderia não encontrados.</div>; // Caso não tenha dados
+  }
+
+  const handleCheckOut = (laundryData, machineData, selectedMachineId) => {
+    console.log("laundryData:", laundryData);
+    console.log("machineData:", machineData);
+    console.log("Selected Machine ID antes de navegar:", selectedMachineId);
+    navigate("/payment", {
+      state: {
+        laundryData: laundryData,
+        machineData: machineData,
+        selectedMachineId: selectedMachineId.machineID,
+      },
+    });
+  };
+
   return (
     <WashFoldContainer>
       <WashFoldContent>
-        <ReturnButton to="/nearyou" />
+        <ReturnButton to="/laundryresults" />
         <TitleContainer>
-          <Title>Wash & Fold</Title>
-          <Laundry>
+          <Title>{laundryInfo.name || "Unknown Laundry"}</Title>
+          <Laundry key={laundryInfo.laundryID}>
             <LocationWrapper>
-              <Location />
+              {laundryInfo.locationDetail || "No details"},{" "}
+              {laundryInfo.locationCity || "No city"}
             </LocationWrapper>
             <RatingBadge>
               <img src="/icon/star.svg" alt="Rating Badge" />
-              <strong>4.3</strong>(12,789 Reviews)
+              <strong>
+                {" "}
+                {(laundryInfo.sumRatings / laundryInfo.numRatings || 0).toFixed(
+                  1
+                )}
+              </strong>
+              ({laundryInfo.numRatings || 0} Reviews)
             </RatingBadge>
           </Laundry>
-          <LaundryImg src="/img/wash-fold.png" alt="Imagem 1"></LaundryImg>
+          <LaundryImg
+            src={laundryInfo.picture || "/placeholder.png"}
+            alt={laundryInfo.name || "Laundry"}
+          ></LaundryImg>
         </TitleContainer>
         <FlexContent>
-          <FlexContainer>
-            <CardContent>
-              <Washer>321</Washer>
-              <WasherContent>
-                <Weight>
-                  <strong>9 KG </strong> Washer
-                </Weight>
-                <Time>28 min</Time>
-              </WasherContent>
-              <ShoppingCart>
-                €3,80{" "}
-                <img
-                  src="/icon/shopper.svg"
-                  alt="Shopping Cart Icon"
-                  width="20"
-                  height="20"
-                />
-              </ShoppingCart>
-            </CardContent>
-          </FlexContainer>
-
-          <FlexContainer>
-            <CardContent>
-              <Washer>321</Washer>
-              <WasherContent>
-                <Weight>
-                  <strong>9 KG </strong> Washer
-                </Weight>
-                <Time>28 min</Time>
-              </WasherContent>
-              <ShoppingCart>
-                €3,80{" "}
-                <img
-                  src="/icon/shopper.svg"
-                  alt="Shopping Cart Icon"
-                  width="20"
-                  height="20"
-                />
-              </ShoppingCart>
-            </CardContent>
-          </FlexContainer>
-
-          <FlexContainer>
-            <CardContent>
-              <Washer>341</Washer>
-              <WasherContent>
-                <Weight>
-                  <strong>9 KG </strong>Dryer
-                </Weight>
-                <Time>28 min</Time>
-              </WasherContent>
-              <ShoppingCart>
-                €3,80{" "}
-                <img
-                  src="/icon/shopper.svg"
-                  alt="Shopping Cart Icon"
-                  width="20"
-                  height="20"
-                />
-              </ShoppingCart>
-            </CardContent>
-          </FlexContainer>
-
-          <FlexContainer>
-            <CardContent>
-              <Washer>341</Washer>
-              <WasherContent>
-                <Weight>
-                  <strong>9 KG </strong> Dryer
-                </Weight>
-                <Time>28 min</Time>
-              </WasherContent>
-              <ShoppingCart>
-                €3,80{" "}
-                <img
-                  src="/icon/shopper.svg"
-                  alt="Shopping Cart Icon"
-                  width="20"
-                  height="20"
-                />
-              </ShoppingCart>
-            </CardContent>
-          </FlexContainer>
+          {machineDataState.length > 0 ? (
+            machineDataState.map((machineDataState) => (
+              <CardWasher
+                key={machineDataState.machineID}
+                laundryID={machineDataState.laundryID}
+                machineID={machineDataState.machineID}
+                machineCapacity={machineDataState.machineCapacity}
+                machineUnits={machineDataState.machineUnits}
+                programTime={machineDataState.programTime}
+                programPrice={machineDataState.programPrice}
+                machineType={machineDataState.machineType}
+                isAvailable={
+                  machineDataState.isAvailable ? "Available" : "Busy"
+                }
+                onClick={() =>
+                  handleCheckOut(
+                    laundryInfo,
+                    machineDataState,
+                    machineDataState.machineID
+                  )
+                }
+              />
+            ))
+          ) : (
+            <div>No machines available</div> // Mensagem caso não haja máquinas
+          )}
         </FlexContent>
       </WashFoldContent>
       <AboutContent>
@@ -324,9 +288,6 @@ const WashFold = () => {
           use advanced technology for Laundry and Dry cleaning to enhance and
           maintain beauty of your garments. Finally we are delivering you
           unforgettable.{" "}
-          <AboutLink href="" target="blankt">
-            See more..
-          </AboutLink>
         </AboutInfo>
       </AboutContent>
     </WashFoldContainer>

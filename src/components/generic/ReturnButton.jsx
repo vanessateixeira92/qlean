@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-// Estilo do botão
 const BackButton = styled.button`
   border: 1px solid rgba(228, 228, 228, 1);
   background: rgba(255, 255, 255, 1);

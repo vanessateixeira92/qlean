@@ -17,6 +17,7 @@ const LabelWrapper = styled.label`
   z-index: 1;
   height: 39px;
   box-sizing: border-box;
+  box-shadow: 0px 1px 11px 0px rgba(0, 0, 0, 0.12);
 `;
 
 const InputText = styled.input`
@@ -47,7 +48,7 @@ const Search = ({ className }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/nearyou?search=${searchQuery}`);
+      navigate(`/laundryresults?search=${searchQuery}`);
     }
   };
 
@@ -55,6 +56,7 @@ const Search = ({ className }) => {
     <form onSubmit={handleSearchSubmit}>
       <LabelWrapper className={className}>
         <InputText
+          id="search"
           type="text"
           placeholder="Search Laundry..."
           value={searchQuery}

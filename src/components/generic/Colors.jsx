@@ -5,6 +5,7 @@ const Colors = {
   backgroundWhite: "rgba(255, 255, 255, 1)", // branco
   backgroundGrey: "rgba(120, 120, 120, 1)", // cinza escuro
   backgroundAquaVibrant: "rgba(52, 205, 205, 1)", // aqua vibrante para destaque
+  backgroundRed: "rgb(255, 0, 0)",
 
   // Cores de texto
   textPrimary: "rgba(0, 0, 0, 1)", // texto principal (preto)
@@ -17,6 +18,7 @@ const Colors = {
   textLightGrey: "rgba(118, 118, 118, 1)", // cinza claro para texto secundário
   textMutedLight: " rgba(55, 55, 55, 1)",
   textMutedBlackLight: "rgba(0, 0, 0, 0.34)", // preto claro opaco (texto de baixa ênfase)
+  textMutedBlack: "  rgba(0, 0, 0, 0.53)",
   textMutedBlackMedium: "rgba(0, 0, 0, 0.55)", // preto médio opaco (texto menos importante)
   textMutedBlackStrong: "rgba(0, 0, 0, 0.63)", // preto forte opaco (para texto de destaque)
 

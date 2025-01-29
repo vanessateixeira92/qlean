@@ -1,7 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Location from "../Location";
 import Typography from "../Typography";
 import Colors from "../Colors";
 
@@ -10,23 +10,37 @@ const Card = styled.div`
   border-radius: 12px;
   box-shadow: ${Colors.boxShadow};
   width: 100%;
+  max-width: 300px;
   position: relative;
-  margin: 0 auto;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    max-width: 152px;
+  }
 `;
 
 const CardImage = styled.img`
   width: 100%;
+  max-width: 300px;
+  height: 220px;
+  gap: 0px;
+  border-radius: 12px 0px 0px 0px;
+  opacity: 0px;
   display: block;
   border-radius: 12px;
+
+  @media (max-width: 768px) {
+    max-width: 152px;
+    height: 126px;
+  }
 `;
 
-const CardTitle = styled.div`
+const CardContent = styled.div`
   margin: 10px 13px;
   text-align: left;
 `;
 
-const Title = styled.p`
+const LaundryName = styled.p`
   font-size: ${Typography.p.xlarge.fontSize};
   line-height: ${Typography.p.xlarge.lineHeight};
   font-weight: ${Typography.p.medium.fontWeight};
@@ -35,6 +49,18 @@ const Title = styled.p`
   @media (max-width: 768px) {
     font-size: ${Typography.p.medium.fontSize};
     line-height: ${Typography.p.medium.lineHeight};
+  }
+`;
+
+const Description = styled.p`
+  color: ${Colors.textMutedBlack};
+  font-size: ${Typography.p.smallCardTime.fontSize};
+  line-height: ${Typography.p.smallCardTime.lineHeight};
+  margin: 5px 0;
+
+  @media (max-width: 768px) {
+    font-size: ${Typography.p.xsmallCardLocation.fontSize};
+    line-height: ${Typography.p.xsmallCardLocation.lineHeight};
   }
 `;
 
@@ -48,6 +74,13 @@ const Distance = styled.p`
     font-size: ${Typography.p.smallFooter.fontSize};
     line-height: ${Typography.p.smallFooter.lineHeight};
   }
+`;
+
+const LocationInfo = styled.p`
+  color: ${Colors.textLightGrey};
+  font-size: ${Typography.p.smallCardTime.fontSize};
+  line-height: ${Typography.p.smallCardTime.lineHeight};
+  margin-top: 5px;
 `;
 
 const RatingBadge = styled.div`
@@ -75,39 +108,67 @@ const RatingBadge = styled.div`
   }
 `;
 
+const LocationIcon = styled.img`
+  width: 10px;
+  height: auto;
+  margin-right: 5px;
+`;
+
 const StarIcon = styled.img`
   width: 12px;
   height: auto;
 `;
 
-const VerticalCard = ({ image, title, rating, distance }) => {
+const VerticalCard = ({
+  picture,
+  name,
+  laundryID,
+  description,
+  numRatings,
+  sumRatings,
+  locationDetail,
+  locationCity,
+}) => {
+  const navigate = useNavigate();
+
+  const calculateRating = (sum, count) => {
+    console.log("Calcula a avaliação:", sum, count); // Verifica os valores de sum e count
+    return count && parseInt(count) > 0
+      ? parseFloat(sum) / parseInt(count) // Retorna o valor calculado sem arredondar
+      : "N/A";
+  };
+
   return (
-    <Card>
-      <CardImage src={image} alt={title} />
-      <CardTitle>
-        <Title>{title}</Title>
-        <Location
-          fontSize="10px"
-          fontWeight="400"
-          lineHeight="12.6px"
-          color=" rgba(118, 118, 118, 1)"
-        />
+    <Card onClick={() => navigate(`/washfold?laundry=${laundryID}`)}>
+      {" "}
+      <CardImage src={picture} alt={name} />
+      <CardContent>
+        <LaundryName>{name}</LaundryName>
+        {description && <Description>{description}</Description>}
+        <LocationInfo>
+          <LocationIcon src="/icon/maps.svg" alt="Location" />
+          {locationDetail}, {locationCity}
+        </LocationInfo>
         <RatingBadge>
           <StarIcon src="/icon/star.svg" alt="Rating Star" />
-          {rating}
+          {calculateRating(sumRatings, numRatings)}
         </RatingBadge>
-        <Distance>{distance}</Distance>
-      </CardTitle>
+        <Distance></Distance>
+      </CardContent>
     </Card>
   );
 };
 
-// Define PropTypes
+// Validação com PropTypes
 VerticalCard.propTypes = {
-  image: PropTypes.string.isRequired, // Validate as a required string
-  title: PropTypes.string.isRequired, // Validate as a required string
-  rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // Validate as required string or number
-  distance: PropTypes.string.isRequired, // Validate as a required string
+  laundryID: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  numRatings: PropTypes.string,
+  sumRatings: PropTypes.string,
+  locationDetail: PropTypes.string.isRequired,
+  locationCity: PropTypes.string.isRequired,
 };
 
 export default VerticalCard;

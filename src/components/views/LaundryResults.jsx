@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
 import HeaderSecondary from "../generic/HeaderSecondary";
@@ -9,7 +10,7 @@ import Colors from "../generic/Colors";
 import VerticalCard from "../generic/cards/VerticalCard";
 import SortMenu from "../generic/SortMenu";
 
-const NearYouContainer = styled.div`
+const LaundryContainer = styled.div`
   margin: 0 auto;
   padding: 0;
   min-height: 100vh;
@@ -20,7 +21,7 @@ const NearYouContainer = styled.div`
   }
 `;
 
-const NearYouContent = styled.div`
+const LaundryContent = styled.div`
   padding: 10px 20px;
 `;
 
@@ -57,18 +58,6 @@ const GridContent = styled.div`
   margin-bottom: 68px;
 `;
 
-const TitleCards = styled.h2`
-  font-size: ${Typography.h2.large.fontSize};
-  line-height: ${Typography.h2.large.lineHeight};
-  font-weight: ${Typography.h2.medium.fontWeight};
-  margin-bottom: 20px;
-
-  @media (max-width: 768px) {
-    font-size: ${Typography.h2.medium.fontSize};
-    line-height: ${Typography.h2.medium.lineHeight};
-  }
-`;
-
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -80,8 +69,10 @@ const GridContainer = styled.div`
   }
 `;
 
-const NearYou = () => {
+const LaundryResults = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [laundries, setLaundries] = useState([]);
   const queryParams = new URLSearchParams(location.search);
   const initialSearchQuery = queryParams.get("search")?.toLowerCase() || ""; // Captura o parâmetro 'search' da URL
 
@@ -89,108 +80,38 @@ const NearYou = () => {
   const [sortOption, setSortOption] = useState("Most Popular");
   const [isSortMenuOpen, setSortMenuOpen] = useState(false); // Estado para controlar o menu de ordenação
 
-  const laundries = [
-    {
-      id: 1,
-      title: "Wash & Fold",
-      image: "/img/nearyou.jpg",
-      rating: 4.3,
-      distance: "3350m | 2 min",
-    },
-    {
-      id: 2,
-      title: "Laundry Pro",
-      image: "/img/nearyou.jpg",
-      rating: 4.0,
-      distance: "500m | 3 min",
-    },
-    {
-      id: 3,
-      title: "Quick Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.5,
-      distance: "800m | 5 min",
-    },
-    {
-      id: 4,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.8,
-      distance: "1.2km | 6 min",
-    },
+  // Fazer a requisição ao endpoint para buscar as lavandarias
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const updatedSearchQuery = queryParams.get("search")?.toLowerCase() || "";
+    setSearchQuery(updatedSearchQuery); // Atualiza o estado sempre que a URL mudar
 
-    {
-      id: 5,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
+    const fetchLaundries = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}`
+        );
 
-    {
-      id: 6,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
+        if (!response.ok) {
+          throw new Error(`Error fetching laundries: ${response.status}`);
+        }
 
-    {
-      id: 7,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
+        const responseData = await response.json();
+        console.log("Resposta da API:", responseData);
+        setLaundries(responseData.data || []);
+        console.log("Laundries:", responseData.data || []);
+      } catch (error) {
+        console.error("Failed to fetch laundries:", error.message);
+      }
+    };
 
-    {
-      id: 8,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.5,
-      distance: "1.2km | 6 min",
-    },
+    fetchLaundries();
+  }, [location.search]);
 
-    {
-      id: 9,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.3,
-      distance: "1.2km | 6 min",
-    },
-
-    {
-      id: 10,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
-
-    {
-      id: 11,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
-
-    {
-      id: 12,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
-
-    {
-      id: 13,
-      title: "Speed Wash",
-      image: "/img/nearyou.jpg",
-      rating: 4.7,
-      distance: "1.2km | 6 min",
-    },
-  ];
+  const handleSearch = () => {
+    console.log("Navigating with search query:", searchQuery);
+    navigate(`/laundryresults?search=${searchQuery}`);
+  };
 
   const parseDistance = (distance) => {
     if (!distance) return Infinity;
@@ -205,8 +126,11 @@ const NearYou = () => {
     return Infinity;
   };
 
-  const filteredResults = laundries.filter((laundry) =>
-    laundry.title.toLowerCase().includes(searchQuery)
+  const filteredResults = laundries.filter(
+    (laundry) =>
+      laundry.name.toLowerCase().includes(searchQuery) ||
+      laundry.description.toLowerCase().includes(searchQuery) ||
+      laundry.locationCity.toLowerCase().includes(searchQuery)
   );
 
   const sortedResults = [...filteredResults].sort((a, b) => {
@@ -223,20 +147,26 @@ const NearYou = () => {
   const totalResults = laundries.length;
   const visibleResults = sortedResults.length;
 
+  console.log("searchQuery:", searchQuery);
+  console.log("Filtered Results:", filteredResults);
+
   return (
-    <NearYouContainer>
-      <NearYouContent>
+    <LaundryContainer>
+      <LaundryContent>
         <HeaderSecondary />
         <br />
 
         <StyledSearch
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onSearch={handleSearch}
         />
 
         <InfoSection>
           <ResultsInfo>
-            {visibleResults} of {totalResults} results
+            {visibleResults === 0
+              ? "0 results"
+              : `${visibleResults} of ${totalResults} results`}{" "}
           </ResultsInfo>
           <SortMenu
             isOpen={isSortMenuOpen}
@@ -250,23 +180,34 @@ const NearYou = () => {
         </InfoSection>
 
         <GridContent>
-          <TitleCards>Near You</TitleCards>
           <GridContainer>
+            {console.log("Detalhes da lavanderia:", laundries)}
             {sortedResults.map((laundry) => (
               <VerticalCard
-                key={laundry.id}
-                image={laundry.image}
-                title={laundry.title}
-                rating={laundry.rating}
-                distance={laundry.distance}
+                key={laundry.laundryID}
+                laundryID={laundry.laundryID}
+                picture={laundry.picture}
+                name={laundry.name}
+                description={laundry.description}
+                numRatings={laundry.numRatings}
+                sumRatings={laundry.sumRatings}
+                locationDetail={laundry.locationDetail}
+                locationCity={laundry.locationCity}
+                onClick={() => {
+                  console.log(
+                    "Clicar na lavanderia com ID:",
+                    laundry.laundryID
+                  );
+                  navigate(`/washfold/${laundry.laundryID}`);
+                }}
               />
             ))}
           </GridContainer>
         </GridContent>
-      </NearYouContent>
+      </LaundryContent>
       <NavBar />
-    </NearYouContainer>
+    </LaundryContainer>
   );
 };
 
-export default NearYou;
+export default LaundryResults;

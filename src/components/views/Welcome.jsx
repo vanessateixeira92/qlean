@@ -28,12 +28,12 @@ const TitleButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 80px;
   width: 100%;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 `;
 
@@ -41,7 +41,7 @@ const TitleContainer = styled.div`
   text-align: left;
   width: 90%;
   max-width: 335px;
-  margin-bottom: 5%;
+  margin-bottom: 20px;
   box-sizing: border-box;
 `;
 
@@ -51,7 +51,7 @@ const WelcomeTitle = styled.h1`
   line-height: ${Typography.h1.large.lineHeight};
   letter-spacing: ${Typography.h1.large.letterSpacing};
   color: ${Colors.textWhite};
-  margin-bottom: 0;
+  margin-bottom: 5px;
 `;
 
 const WelcomeParagraph = styled.p`
@@ -89,14 +89,9 @@ const Welcome = () => {
 
         <ButtonContainer>
           <Button
-            text="Login"
-            variant="loginWelcome"
-            onClick={() => navigate("/login")}
-          />
-          <Button
-            text="Sign Up"
-            variant="signUpWelcome"
-            onClick={() => navigate("/signup")}
+            text="Enter"
+            variant="enter"
+            onClick={() => navigate("/home")}
           />
         </ButtonContainer>
       </TitleButtonContainer>

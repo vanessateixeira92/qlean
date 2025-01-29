@@ -44,7 +44,7 @@ const DropdownMenu = styled.ul`
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   padding: 8px;
   width: 150px;
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
   z-index: 1000;
   list-style: none;
   margin: 0;
@@ -81,7 +81,7 @@ const SortMenu = ({ sortOption, onSelectSortOption }) => {
         {sortOption}
       </MostPopularButton>
       <DropdownIcon />
-      <DropdownMenu isOpen={dropdownOpen}>
+      <DropdownMenu $isOpen={dropdownOpen}>
         {["Most Popular", "Nearest", "Highest Rated"].map((option) => (
           <DropdownItem key={option} onClick={() => handleOptionSelect(option)}>
             {option}
@@ -94,8 +94,8 @@ const SortMenu = ({ sortOption, onSelectSortOption }) => {
 
 // Validação de props
 SortMenu.propTypes = {
-  sortOption: PropTypes.string.isRequired, // A prop deve ser uma string obrigatória
-  onSelectSortOption: PropTypes.func.isRequired, // A prop deve ser uma função obrigatória
+  sortOption: PropTypes.string.isRequired,
+  onSelectSortOption: PropTypes.func.isRequired,
 };
 
 export default SortMenu;

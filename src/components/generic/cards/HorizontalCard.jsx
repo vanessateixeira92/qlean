@@ -1,11 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Location from "../Location";
 import Typography from "../Typography";
 import Colors from "../Colors";
 
-// Estilo do Card Horizontal
 const FlexContainer = styled.div`
   display: flex;
   align-items: center;
@@ -27,7 +26,7 @@ const HorizontalCardImage = styled.img`
 
   @media ((max-width: 768px)) {
     width: 52px;
-    height: 52px;
+    height: 61px;
   }
 `;
 
@@ -38,11 +37,9 @@ const HorizontalCardContent = styled.div`
 `;
 
 const HorizontalCardTitle = styled.p`
-  margin-bottom: 5px;
   font-size: ${Typography.p.xlarge.fontSize};
   line-height: ${Typography.p.xlarge.lineHeight};
   font-weight: ${Typography.p.large.fontWeight};
-  margin-bottom: 5px;
 
   @media (max-width: 768px) {
     font-size: ${Typography.p.medium.fontSize};
@@ -50,15 +47,20 @@ const HorizontalCardTitle = styled.p`
   }
 `;
 
+const LocationInfo = styled.p`
+  color: ${Colors.textLightGrey};
+  font-size: ${Typography.p.smallCardTime.fontSize};
+  line-height: ${Typography.p.smallCardTime.lineHeight};
+`;
+
 const HorizontalRatingBadge = styled.div`
   width: 36px;
   height: 19px;
   display: flex;
-  gap: 5px;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   justify-content: center;
   border-radius: 9.5px;
-  padding: 5px 7px;
   background: linear-gradient(
     100.77deg,
     rgba(255, 255, 255, 0.64) 0%,
@@ -79,23 +81,37 @@ const StarIcon = styled.img`
   height: auto;
 `;
 
-const HorizontalCards = ({ image, title, rating }) => {
-  return (
-    <FlexContainer>
-      <HorizontalCardImage src={image} alt={title} />
-      <HorizontalCardContent>
-        <HorizontalCardTitle>{title}</HorizontalCardTitle>
+const HorizontalCards = ({
+  picture,
+  name,
+  laundryID,
+  numRatings,
+  sumRatings,
+  locationDetail,
+  locationCity,
+}) => {
+  const navigate = useNavigate();
 
-        <Location
-          fontSize="10px"
-          fontWeight="400"
-          lineHeight="12.6px"
-          color=" rgba(118, 118, 118, 1)"
-        />
+  const calculateRating = (sum, count) => {
+    console.log("Calcula a avaliação:", sum, count); // Verifica os valores de sum e count
+    return count && parseInt(count) > 0
+      ? parseFloat(sum) / parseInt(count) // Retorna o valor calculado sem arredondar
+      : "N/A";
+  };
+
+  return (
+    <FlexContainer onClick={() => navigate(`/washfold?laundry=${laundryID}`)}>
+      <HorizontalCardImage src={picture} alt={name} />
+      <HorizontalCardContent>
+        <HorizontalCardTitle>{name}</HorizontalCardTitle>
+        <LocationInfo>
+          {locationDetail}, {locationCity}
+        </LocationInfo>
       </HorizontalCardContent>
+
       <HorizontalRatingBadge>
         <StarIcon src="/icon/star.svg" alt="Rating Star" />
-        {rating}
+        {calculateRating(sumRatings, numRatings)}
       </HorizontalRatingBadge>
     </FlexContainer>
   );
@@ -103,9 +119,14 @@ const HorizontalCards = ({ image, title, rating }) => {
 
 // Validação com PropTypes
 HorizontalCards.propTypes = {
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  laundryID: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  numRatings: PropTypes.string,
+  sumRatings: PropTypes.string,
+  locationDetail: PropTypes.string.isRequired,
+  locationCity: PropTypes.string.isRequired,
 };
 
 export default HorizontalCards;

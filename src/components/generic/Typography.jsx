@@ -47,6 +47,10 @@ const Typography = {
       fontWeight: "500",
       lineHeight: "21.42px",
     },
+
+    small: {
+      fontWeight: "400",
+    },
   },
 
   // Tamanhos de fonte para h3
