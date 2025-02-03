@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Typography from "../Typography";
@@ -84,23 +83,21 @@ const StarIcon = styled.img`
 const HorizontalCards = ({
   picture,
   name,
-  laundryID,
   numRatings,
   sumRatings,
   locationDetail,
   locationCity,
+  onClick,
 }) => {
-  const navigate = useNavigate();
-
   const calculateRating = (sum, count) => {
     console.log("Calcula a avaliação:", sum, count); // Verifica os valores de sum e count
     return count && parseInt(count) > 0
-      ? parseFloat(sum) / parseInt(count) // Retorna o valor calculado sem arredondar
+      ? (parseFloat(sum) / parseInt(count)).toFixed(1) // Arredonda para uma casa decimal
       : "N/A";
   };
 
   return (
-    <FlexContainer onClick={() => navigate(`/washfold?laundry=${laundryID}`)}>
+    <FlexContainer onClick={onClick}>
       <HorizontalCardImage src={picture} alt={name} />
       <HorizontalCardContent>
         <HorizontalCardTitle>{name}</HorizontalCardTitle>
@@ -127,6 +124,7 @@ HorizontalCards.propTypes = {
   sumRatings: PropTypes.string,
   locationDetail: PropTypes.string.isRequired,
   locationCity: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default HorizontalCards;

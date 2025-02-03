@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Typography from "../Typography";
@@ -13,9 +12,12 @@ const Card = styled.div`
   max-width: 300px;
   position: relative;
   cursor: pointer;
+  padding: 2px;
+  margin: 0 auto;
 
   @media (max-width: 768px) {
     max-width: 152px;
+    height: 220px;
   }
 `;
 
@@ -23,9 +25,6 @@ const CardImage = styled.img`
   width: 100%;
   max-width: 300px;
   height: 220px;
-  gap: 0px;
-  border-radius: 12px 0px 0px 0px;
-  opacity: 0px;
   display: block;
   border-radius: 12px;
 
@@ -122,24 +121,22 @@ const StarIcon = styled.img`
 const VerticalCard = ({
   picture,
   name,
-  laundryID,
   description,
   numRatings,
   sumRatings,
   locationDetail,
   locationCity,
+  onClick,
 }) => {
-  const navigate = useNavigate();
-
   const calculateRating = (sum, count) => {
     console.log("Calcula a avaliação:", sum, count); // Verifica os valores de sum e count
     return count && parseInt(count) > 0
-      ? parseFloat(sum) / parseInt(count) // Retorna o valor calculado sem arredondar
+      ? (parseFloat(sum) / parseInt(count)).toFixed(1) // Arredonda para uma casa decimal
       : "N/A";
   };
 
   return (
-    <Card onClick={() => navigate(`/washfold?laundry=${laundryID}`)}>
+    <Card onClick={onClick}>
       {" "}
       <CardImage src={picture} alt={name} />
       <CardContent>
@@ -169,6 +166,7 @@ VerticalCard.propTypes = {
   sumRatings: PropTypes.string,
   locationDetail: PropTypes.string.isRequired,
   locationCity: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default VerticalCard;

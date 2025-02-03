@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
@@ -99,9 +99,8 @@ const TitleCards = styled.h2`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
-  padding: 2px;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -118,6 +117,9 @@ const FlexContent = styled.div`
 `;
 
 const Home = () => {
+  const [searchParams] = useSearchParams();
+  const laundryId = searchParams.get("laundry");
+  console.log("laundryID recuperado da URL:", laundryId);
   const [searchQuery, setSearchQuery] = useState("");
   const [maxCards, setMaxCards] = useState(6);
   const [laundries, setLaundries] = useState([]);
@@ -128,7 +130,7 @@ const Home = () => {
     const fetchLaundries = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}`
+          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}${laundryId}`
         );
 
         if (!response.ok) {
@@ -145,7 +147,9 @@ const Home = () => {
     };
 
     fetchLaundries();
-  }, []);
+  }, [laundryId]);
+
+  // Navegação com a barra de pesquisa
   const handleSearch = () => {
     console.log("Navigating with search query:", searchQuery);
     navigate(`/laundryresults?search=${searchQuery}`);

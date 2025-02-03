@@ -141,56 +141,77 @@ const WashFold = () => {
     const fetchLaundryInfo = async () => {
       try {
         if (!laundryId) {
-          console.error("ID da lavanderia não fornecido.");
+          console.error("Laundry ID not provided.");
           navigate("/laundryresults"); // Redirecionar caso o ID não esteja presente
           return;
         }
 
+        setLaundryInfo(null);
         setLoading(true); // Inicia carregamento
         setError(null);
 
         // Fetch da lavanderia
         const laundryResponse = await fetch(
-          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}`
+          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}${laundryId}`
         );
 
         console.log("Laundry ID:", laundryId);
 
         const laundryResult = await laundryResponse.json();
-
         console.log("Laundry Response:", laundryResult);
-        if (laundryResponse.ok && laundryResult.data.length > 0) {
-          setLaundryInfo(laundryResult.data[0]); // Atualiza os dados da lavanderia
-          console.log(
-            "Dados da lavanderia armazenados no estado:",
-            laundryResult.data[0]
+
+        if (laundryResult.data && laundryResult.data.length > 0) {
+          console.log("Dados retornados pela API:", laundryResult.data);
+          const correctLaundry = laundryResult.data.find(
+            (laundry) => laundry.laundryID === laundryId
           );
+
+          if (correctLaundry) {
+            console.log("Lavanderia encontrada:", correctLaundry);
+            setLaundryInfo(correctLaundry);
+          } else {
+            console.error("No laundry found with this ID.");
+            setLaundryInfo(null);
+          }
         } else {
-          setError("Erro ao carregar os dados da lavanderia.");
-        }
+          console.error("Error: No laundry available or invalid API response.");
+          console.log("Resposta da API:", laundryResult);
+          setLaundryInfo(null);
+        } // Atualiza os dados da lavanderia
 
         // Fetch das máquinas
         const machineResponse = await fetch(
-          `${process.env.REACT_APP_GET_MACHINES_API_URL}`
+          `${process.env.REACT_APP_GET_MACHINES_API_URL}${laundryId}`
+        );
+        console.log("API URL:", process.env.REACT_APP_GET_MACHINES_API_URL);
+        console.log(
+          "Final URL:",
+          `${process.env.REACT_APP_GET_MACHINES_API_URL}${laundryId}`
         );
 
         const machineResult = await machineResponse.json();
-
         console.log(
           "Machine Response JSON:",
           JSON.stringify(machineResult, null, 2)
         );
 
-        if (machineResponse.ok && machineResult.data.length > 0) {
-          setMachineData(
-            machineResult.data.sort((a, b) => a.machineID - b.machineID)
-          ); // Ordena por ID
-          console.log("Máquinas carregadas:", machineResult.data);
+        if (machineResponse.ok) {
+          if (machineResult.data.length > 0) {
+            setMachineData(
+              machineResult.data.sort(
+                (a, b) => Number(a.machineID) - Number(b.machineID)
+              )
+            );
+            console.log("Máquinas carregadas:", machineResult.data);
+          } else {
+            console.warn("No machines found for this laundry.");
+            setMachineData([]); // Evita erro e permite que a página carregue normalmente
+          }
         } else {
-          throw new Error("Erro ao carregar os dados das máquinas.");
+          throw new Error("Error loading machine data.");
         }
       } catch (error) {
-        setError("Erro ao ir buscar os dados da lavanderia.");
+        setError("Error fetching laundry data.");
       } finally {
         setLoading(false); // Finaliza o carregamento
       }
@@ -208,7 +229,7 @@ const WashFold = () => {
   }
 
   if (!laundryInfo) {
-    return <div>Dados da lavanderia não encontrados.</div>; // Caso não tenha dados
+    return <div>Laundry data not found.</div>; // Caso não tenha dados
   }
 
   const handleCheckOut = (laundryData, machineData, selectedMachineId) => {

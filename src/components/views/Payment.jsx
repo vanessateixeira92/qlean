@@ -258,7 +258,7 @@ const Payment = () => {
         console.log("API Response:", response.data);
         setLaundryInfo(response.data);
       } catch (error) {
-        console.error("Erro ao buscar os dados da máquina:", error);
+        console.error("Error fetching machine data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -309,7 +309,7 @@ const Payment = () => {
   }
 
   if (!laundryInfo || !machineDataState) {
-    return <div>Erro ao carregar os dados da máquina.</div>;
+    return <div>Error loading machine data.</div>;
   }
 
   return (

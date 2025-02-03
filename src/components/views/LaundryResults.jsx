@@ -1,5 +1,4 @@
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../forms/Search";
@@ -60,8 +59,8 @@ const GridContent = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  grid-gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
   align-items: start;
 
   @media (max-width: 768px) {
@@ -72,6 +71,8 @@ const GridContainer = styled.div`
 const LaundryResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const laundryId = searchParams.get("laundry");
   const [laundries, setLaundries] = useState([]);
   const queryParams = new URLSearchParams(location.search);
   const initialSearchQuery = queryParams.get("search")?.toLowerCase() || ""; // Captura o parâmetro 'search' da URL
@@ -89,7 +90,7 @@ const LaundryResults = () => {
     const fetchLaundries = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}`
+          `${process.env.REACT_APP_GET_LAUNDRIES_API_URL}${laundryId}`
         );
 
         if (!response.ok) {
@@ -98,16 +99,23 @@ const LaundryResults = () => {
 
         const responseData = await response.json();
         console.log("Resposta da API:", responseData);
-        setLaundries(responseData.data || []);
-        console.log("Laundries:", responseData.data || []);
+        if (responseData.data && responseData.data.length > 0) {
+          setLaundries(responseData.data);
+          console.log("Laundries:", responseData.data);
+        } else {
+          console.warn("No laundries found.");
+          setLaundries([]); // Define como array vazio para evitar erro
+        }
       } catch (error) {
         console.error("Failed to fetch laundries:", error.message);
+        setLaundries([]); // Define como array vazio em caso de erro
       }
     };
 
     fetchLaundries();
-  }, [location.search]);
+  }, [location.search, laundryId]);
 
+  // Navegação com a barra de pesquisa
   const handleSearch = () => {
     console.log("Navigating with search query:", searchQuery);
     navigate(`/laundryresults?search=${searchQuery}`);
@@ -193,13 +201,9 @@ const LaundryResults = () => {
                 sumRatings={laundry.sumRatings}
                 locationDetail={laundry.locationDetail}
                 locationCity={laundry.locationCity}
-                onClick={() => {
-                  console.log(
-                    "Clicar na lavanderia com ID:",
-                    laundry.laundryID
-                  );
-                  navigate(`/washfold/${laundry.laundryID}`);
-                }}
+                onClick={() =>
+                  navigate(`/washfold?laundry=${laundry.laundryID}`)
+                }
               />
             ))}
           </GridContainer>
