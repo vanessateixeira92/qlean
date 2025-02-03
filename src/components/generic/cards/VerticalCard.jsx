@@ -12,7 +12,6 @@ const Card = styled.div`
   max-width: 300px;
   position: relative;
   cursor: pointer;
-  padding: 2px;
   margin: 0 auto;
 
   @media (max-width: 768px) {
